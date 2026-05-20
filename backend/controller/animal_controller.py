@@ -22,3 +22,38 @@ def cadastrar_animal(dados_formulario):
         
     #Retorna uma mensagem se o animal for adicionado com sucesso
     return {"mensagem": f"{novo_animal.nome_popular} cadastrado com sucesso!", "id": novo_animal.id}
+
+    # Atualizar dados de um animal existente
+def atualizar_animal(animal_id: int, dados_formulario: dict):
+    with Session(engine) as sessao:
+        animal_existente = sessao.get(Animal, animal_id)
+        
+       
+        if not animal_existente:
+            return {"erro": "Animal não encontrado para atualização."}
+        
+        animal_existente.nome_popular = dados_formulario.get("nome_popular", animal_existente.nome_popular)
+        animal_existente.nome_cientifico = dados_formulario.get("nome_cientifico", animal_existente.nome_cientifico)
+        animal_existente.bioma = dados_formulario.get("bioma", animal_existente.bioma)
+        animal_existente.status_extincao = dados_formulario.get("status_extincao", animal_existente.status_extincao)
+        animal_existente.descricao = dados_formulario.get("descricao", animal_existente.descricao)
+        animal_existente.imagem_url = dados_formulario.get("imagem_url", animal_existente.imagem_url)
+        
+        sessao.add(animal_existente)
+        sessao.commit()
+        sessao.refresh(animal_existente)
+        
+    return {"mensagem": f"{animal_existente.nome_popular} atualizado com sucesso!"}
+    
+    #delete animal    
+def deletar_animal(animal_id: int):
+    with Session(engine) as sessao:
+        animal_existente = sessao.get(Animal, animal_id)
+        if not animal_existente:
+            return {"erro": "Animal não encontrado para exclusão."}
+        sessao.delete(animal_existente)
+        sessao.commit()
+        
+    return {"mensagem": f"Animal removido com sucesso!"}
+
+    #buscar
