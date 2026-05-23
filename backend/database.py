@@ -7,7 +7,8 @@ engine = create_engine(DATABASE_URL, echo=True)
 def criar_tabelas():
     from backend.models.animal import Animal
     from backend.models.usuario import Usuario
-    
+    from backend.models.bioma import Bioma
+
     SQLModel.metadata.create_all(engine)
 
 def obter_sessao():
