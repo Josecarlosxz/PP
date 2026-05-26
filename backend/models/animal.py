@@ -19,7 +19,6 @@ class Animal(Base):
     imagem_url = Column(String(500),nullable=True)
 
 
- 
     # UM usuário -> MUITOS animais
     usuario_id = Column(Integer,ForeignKey("usuarios.id"))
     # relacionamento com usuario

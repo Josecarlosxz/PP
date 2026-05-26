@@ -1,7 +1,7 @@
 from flask import Flask, request
 from backend.database import Base, engine
 
-# IMPORTA TODOS OS MODELS
+#importar os models
 from backend.models.usuario import Usuario
 from backend.models.animal import Animal
 from backend.models.bioma import Bioma

@@ -11,5 +11,6 @@ class Usuario(Base):
     email = Column("email", String(100), unique=True,  nullable=False)
     senha = Column("senha", String(100))
 
+
   # Um usuário pode possuir VÁRIOS animais -> RELACIONAMENTO 1:N
     animais = relationship("Animal",back_populates="usuario")
