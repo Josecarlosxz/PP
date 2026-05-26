@@ -1,16 +1,22 @@
-from sqlmodel import SQLModel, create_engine, Session
 
-DATABASE_URL = f"mysql+mysqlconnector://root:root@localhost:3306/pp_fauna"
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
+
+DATABASE_URL = "sqlite:///meubanco.db"
 
 engine = create_engine(DATABASE_URL, echo=True)
 
-def criar_tabelas():
-    from backend.models.animal import Animal
-    from backend.models.usuario import Usuario
-    from backend.models.bioma import Bioma
+SessionLocal = sessionmaker( autocommit=False, autoflush=False, bind=engine)
 
-    SQLModel.metadata.create_all(engine)
+Base = declarative_base()
 
-def obter_sessao():
-    with Session(engine) as session:
-        yield session
+# def criar_tabelas():
+#     from backend.models.animal import Animal
+#     from backend.models.usuario import Usuario
+#     from backend.models.bioma import Bioma
+
+#     SQLModel.metadata.create_all(engine)
+
+# def obter_sessao():
+#     with Session(engine) as session:
+#         yield session
