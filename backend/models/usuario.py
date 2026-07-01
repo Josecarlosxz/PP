@@ -14,3 +14,5 @@ class Usuario(Base):
 
   # Um usuário pode possuir VÁRIOS animais -> RELACIONAMENTO 1:N
     animais = relationship("Animal",back_populates="usuario")
+    
+    tokens = relationship("Token", back_populates="professor")

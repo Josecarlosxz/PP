@@ -1,6 +1,9 @@
 from flask import Flask, request
 from backend.database import Base, engine
 
+from backend.controller.token_controller import gerar_token
+from backend.models.participante import Participante
+
 #importar os models
 from backend.models.usuario import Usuario
 from backend.models.animal import Animal
@@ -153,6 +156,19 @@ def rota_listar_biomas():
 def rota_buscar_bioma(bioma_id: int):
     return buscar_bioma(bioma_id)
 
+# ---------------------- Token ----------------------
+@app.route("/gerar-token/<int:professor_id>", methods=["POST"])
+def rota_gerar_token(professor_id):
+
+    resultado = gerar_token(professor_id)
+
+    if "erro" in resultado:
+        return f"Erro: {resultado['erro']}"
+
+    return f"""
+    Token gerado com sucesso!<br>
+    Código: {resultado['codigo']}
+    """
 
 if __name__ == "__main__":
     app.run(debug=True)
