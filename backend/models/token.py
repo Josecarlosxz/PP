@@ -1,19 +1,17 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import String, Boolean, DateTime, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.database import Base
-
+from datetime import datetime
 
 class Token(Base):
     __tablename__ = "tokens"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    codigo = Column(String(20), unique=True, nullable=False)
-    ativo = Column(Boolean, default=True)
-    expira_em = Column(DateTime)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    codigo: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
+    ativo: Mapped[bool] = mapped_column(Boolean, default=True)
+    expira_em: Mapped[datetime] = mapped_column(DateTime)
 
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"))
 
-    # relacionamento correto
     usuario = relationship("Usuario", back_populates="tokens")
-
     participantes = relationship("Participante", back_populates="token")

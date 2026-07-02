@@ -1,16 +1,16 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
-from backend.database import Base
+from sqlalchemy import String, Boolean, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
+from backend.models.especie import Especie
 
 
-class Planta(Base):
+class Planta(Especie):
     __tablename__ = "plantas"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(ForeignKey("especies.id"), primary_key=True)
 
-    tipo_folha = Column(String(50))
-    medicinal = Column(Boolean)
+    tipo_folha: Mapped[str] = mapped_column(String(50))
+    medicinal: Mapped[bool] = mapped_column(Boolean)
 
-    especie_id = Column(Integer, ForeignKey("especies.id"))
-
-    especie = relationship("Especie", back_populates="planta")
+    __mapper_args__ = {
+        "polymorphic_identity": "planta",
+    }

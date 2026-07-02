@@ -1,16 +1,16 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
-from backend.database import Base
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
+from backend.models.especie import Especie
 
 
-class Animal(Base):
+class Animal(Especie):
     __tablename__ = "animais"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(ForeignKey("especies.id"), primary_key=True)
 
-    dieta = Column(String(50))
-    habitat_especifico = Column(String(100))
+    dieta: Mapped[str] = mapped_column(String(50))
+    habitat_especifico: Mapped[str] = mapped_column(String(100))
 
-    especie_id = Column(Integer, ForeignKey("especies.id"))
-
-    especie = relationship("Especie", back_populates="animal")
+    __mapper_args__ = {
+        "polymorphic_identity": "animal"
+    }

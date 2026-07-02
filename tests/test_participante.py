@@ -1,12 +1,10 @@
-def test_token_crud(client):
+def test_participante_crud(client):
     # =========================
     # CREATE
     # =========================
-    res = client.post("/tokens/", json={
-        "codigo": "ABC123",
-        "ativo": True,
-        "expira_em": "2030-01-01T00:00:00",
-        "usuario_id": 1
+    res = client.post("/participantes/", json={
+        "nome": "João",
+        "token_id": 1
     })
 
     assert res.status_code == 200
@@ -15,33 +13,31 @@ def test_token_crud(client):
     assert data is not None
     assert "id" in data
 
-    token_id = data["id"]
+    part_id = data["id"]
 
-    assert data["codigo"] == "ABC123"
-    assert data["ativo"] is True
-    assert "expira_em" in data
-    assert data["usuario_id"] == 1
+    # validações do CREATE (somente se seu controller retornar isso)
+    assert data["nome"] == "João"
 
     # =========================
     # READ
     # =========================
-    res = client.get(f"/tokens/{token_id}")
+    res = client.get(f"/participantes/{part_id}")
     assert res.status_code == 200
 
     data = res.get_json()
-    assert data["id"] == token_id
+    assert data["id"] == part_id
 
     # =========================
     # DELETE
     # =========================
-    res = client.delete(f"/tokens/{token_id}")
+    res = client.delete(f"/participantes/{part_id}")
     assert res.status_code == 200
 
     data = res.get_json()
-    assert data["id"] == token_id
+    assert data["id"] == part_id
 
     # =========================
     # VERIFY DELETE
     # =========================
-    res = client.get(f"/tokens/{token_id}")
+    res = client.get(f"/participantes/{part_id}")
     assert res.status_code == 404

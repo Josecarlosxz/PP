@@ -1,18 +1,15 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.database import Base
 
 
 class Usuario(Base):
     __tablename__ = "usuarios"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    nome = Column(String(100))
-    email = Column(String(100), unique=True, nullable=False)
-    senha = Column(String(100))
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nome: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    senha: Mapped[str] = mapped_column(String(100))
 
-    # 1:N -> usuário pode cadastrar várias espécies
     especies = relationship("Especie", back_populates="usuario")
-
-    # 1:N -> tokens do usuário
     tokens = relationship("Token", back_populates="usuario")

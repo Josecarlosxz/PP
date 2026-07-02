@@ -1,43 +1,31 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.database import Base
 
 
 class Especie(Base):
     __tablename__ = "especies"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    nome_popular = Column(String(100), nullable=False)
-    nome_cientifico = Column(String(150), nullable=False)
-    descricao = Column(String(255))
+    nome_popular: Mapped[str] = mapped_column(String(100), nullable=False)
+    nome_cientifico: Mapped[str] = mapped_column(String(150), nullable=False)
+    descricao: Mapped[str] = mapped_column(String(255))
 
-    # FK usuário
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+    tipo: Mapped[str] = mapped_column(String(20))  # discriminator
 
-    # =========================
-    # RELACIONAMENTOS
-    # =========================
+    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"))
 
     usuario = relationship("Usuario", back_populates="especies")
 
-    # 1:1 com Animal
-    animal = relationship(
-        "Animal",
-        back_populates="especie",
-        uselist=False
-    )
-
-    # 1:1 com Planta
-    planta = relationship(
-        "Planta",
-        back_populates="especie",
-        uselist=False
-    )
-
-    # N:N com Bioma (via tabela intermediária)
     biomas = relationship(
         "EspecieBioma",
         back_populates="especie",
         cascade="all, delete-orphan"
     )
+
+    # 🔥 IMPORTANTE
+    __mapper_args__ = {
+        "polymorphic_on": tipo,
+        "polymorphic_identity": "especie",
+    }

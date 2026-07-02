@@ -1,15 +1,15 @@
-from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.database import Base
-from sqlalchemy.orm import relationship
 
 
 class EspecieBioma(Base):
     __tablename__ = "especie_bioma"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
 
-    especie_id = Column(Integer, ForeignKey("especies.id"))
-    bioma_id = Column(Integer, ForeignKey("biomas.id"))
+    especie_id: Mapped[int] = mapped_column(ForeignKey("especies.id"))
+    bioma_id: Mapped[int] = mapped_column(ForeignKey("biomas.id"))
 
     especie = relationship("Especie", back_populates="biomas")
     bioma = relationship("Bioma", back_populates="especies")
