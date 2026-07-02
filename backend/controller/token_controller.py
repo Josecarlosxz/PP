@@ -53,7 +53,12 @@ def entrar(dados):
         session.add(participante)
         session.commit()
 
-        return {"mensagem": "Entrada permitida!"}
+        return {
+            "mensagem": "Entrada permitida!",
+            "participante_id": participante.id,
+            "nome": participante.nome,
+            "token_id": token.id
+        }
 
     except Exception as e:
 
