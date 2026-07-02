@@ -10,6 +10,8 @@ class Token(Base):
     codigo = Column(String(20), unique=True, nullable=False)
     ativo = Column(Boolean, default=True)
     expira_em = Column(DateTime)
-    professor_id = Column(Integer, ForeignKey("usuarios.id"))
 
-    professor = relationship("Usuario", back_populates="tokens")
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+
+    # relacionamento correto
+    usuario = relationship("Usuario", back_populates="tokens")

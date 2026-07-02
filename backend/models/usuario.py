@@ -6,13 +6,13 @@ from backend.database import Base
 class Usuario(Base):
     __tablename__ = "usuarios"
 
-    id = Column("id", Integer, primary_key=True, autoincrement=True)
-    nome = Column("nome", String(100))
-    email = Column("email", String(100), unique=True,  nullable=False)
-    senha = Column("senha", String(100))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nome = Column(String(100))
+    email = Column(String(100), unique=True, nullable=False)
+    senha = Column(String(100))
 
+    # 1:N -> usuário pode cadastrar várias espécies
+    especies = relationship("Especie", back_populates="usuario")
 
-  # Um usuário pode possuir VÁRIOS animais -> RELACIONAMENTO 1:N
-    animais = relationship("Animal",back_populates="usuario")
-    
-    tokens = relationship("Token", back_populates="professor")
+    # 1:N -> tokens do usuário
+    tokens = relationship("Token", back_populates="usuario")

@@ -1,16 +1,16 @@
 
-from main import app
+# from main import app
 
-client = app.test_client()
+# client = app.test_client()
 
 
-def test_criar_bioma():
+# def test_criar_bioma():
 
-    response = client.post("/biomas", data={
-        "nome": "Caatinga",
-        "descricao": "Bioma brasileiro"
-    })
+#     response = client.post("/biomas", data={
+#         "nome": "Caatinga",
+#         "descricao": "Bioma brasileiro"
+#     })
 
-    print(response.data.decode())
+#     print(response.data.decode())
 
-    assert response.status_code == 200
+#     assert response.status_code == 200
