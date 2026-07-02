@@ -10,4 +10,4 @@ class Participante(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(100), nullable=False)
     token_id = Column(Integer, ForeignKey("tokens.id"))
-    token = relationship("Token")
+    token = relationship("Token", back_populates="participantes")

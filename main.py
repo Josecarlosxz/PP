@@ -1,8 +1,16 @@
-from flask import Flask, request
+from flask import Flask, request, session
 from backend.database import Base, engine
 
+
+# ---------------- TOKENS ----------------
 from backend.controller.token_controller import gerar_token
 import backend.models
+
+from backend.controller.token_controller import (
+    gerar_token,
+    entrar
+)
+
 # ---------------- MODELS ----------------
 from backend.models.usuario import Usuario
 from backend.models.bioma import Bioma
@@ -51,11 +59,13 @@ from backend.controller.planta_controller import (
     buscar_planta
 )
 
+
 app = Flask(__name__)
 import backend.models
 # CRIA AS TABELAS
 Base.metadata.create_all(bind=engine)
 
+app.secret_key = "chave_mais_que_secreta"
 
 @app.route("/")
 def home():
@@ -303,6 +313,21 @@ def rota_gerar_token(professor_id):
     Código: {resultado['codigo']}
     """
 
+@app.route("/entrar", methods=["POST"])
+def rota_entrar():
+
+    dados_formulario = request.form.to_dict()
+
+    resultado = entrar(dados_formulario)
+
+    if "erro" in resultado:
+        return f"Erro: {resultado['erro']}"
+
+    session["participante_id"] = resultado["participante_id"]
+    session["nome"] = resultado["nome"]
+    session["token_id"] = resultado["token_id"]
+
+    return f"Sucesso: {resultado['mensagem']}"
 
 if __name__ == "__main__":
     app.run(debug=True)

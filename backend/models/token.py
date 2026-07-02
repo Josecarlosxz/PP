@@ -15,3 +15,5 @@ class Token(Base):
 
     # relacionamento correto
     usuario = relationship("Usuario", back_populates="tokens")
+
+    participantes = relationship("Participante", back_populates="token")
