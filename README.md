@@ -27,7 +27,7 @@ pip install flask flask-cors
 
 ### 5.Inicie o servidor Flask:
 ```bash
-python app.py
+python main.py
 ```
 Você verá um aviso dizendo que o servidor está rodando em http://127.0.0.1:5000.
 
