@@ -8,7 +8,7 @@
 ### 2. Navegue até a pasta do backend:
 
 ```bash
-cd d:\Users\COMPUTER\Documents\PROJETO---API-4-B\backend
+cd d:\Users\COMPUTER\Documents\PP\\backend
 ```
 
 ### 3. (Opcional, mas recomendado) Crie e ative um ambiente virtual:
@@ -40,7 +40,7 @@ Você verá um aviso dizendo que o servidor está rodando em http://127.0.0.1:50
 ### 2. Navegue até a pasta do frontend:
 
 ```bash
-cd d:\Users\COMPUTER\Documents\PROJETO---API-4-B\frontend
+cd d:\Users\COMPUTER\Documents\PP\\frontend
 ```
 
 ### 3. Vamos usar o Python para servir os arquivos HTML (simular um servidor web simples):
