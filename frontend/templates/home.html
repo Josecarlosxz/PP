@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Home - BioSistema</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/base.css') }}">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/home.css') }}">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <div class="navbar-container">
+
+            <div class="logo">
+                <a href="/home">
+                    BioSistema
+                </a>
+            </div>
+
+            <div class="usuario-area">
+
+                <div class="usuario-info">
+
+                    <span class="usuario-label">
+                        Usuário:
+                    </span>
+
+                    <span
+                        id="nomeUsuario"
+                        class="usuario-nome"
+                    >
+                        Carregando...
+                    </span>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="btnLogout"
+                    class="btn-logout"
+                >
+                    Sair
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
+    <main class="home-container">
+
+        <div
+            id="mensagemErro"
+            class="mensagem-erro"
+            hidden
+        ></div>
+
+
+        <!-- =================================================
+             BOAS-VINDAS
+        ================================================== -->
+
+        <section class="welcome">
+
+            <div class="welcome-content">
+
+                <span class="welcome-tag">
+                    🌱 BioSistema
+                </span>
+
+                <h1>
+
+                    Bem-vindo,
+
+                    <span id="nome">
+                        ...
+                    </span>
+
+                </h1>
+
+                <p>
+                    Explore as informações disponíveis
+                    no sistema de biologia.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RECURSOS
+        ================================================== -->
+
+        <section class="recursos">
+
+            <div class="section-header">
+
+                <span>
+                    CONTEÚDO
+                </span>
+
+                <h2>
+                    Explore o BioSistema
+                </h2>
+
+                <p>
+                    Consulte informações sobre biodiversidade,
+                    animais, plantas, espécies e biomas.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+
+                <!-- ANIMAIS -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🐾
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Animais
+                        </h3>
+
+                        <p>
+                            Consulte informações sobre animais,
+                            características, dieta e habitat.
+                        </p>
+
+                        <a
+                            href="/animais/"
+                            class="card-link"
+                        >
+                            Ver animais
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PLANTAS -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🌿
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Plantas
+                        </h3>
+
+                        <p>
+                            Consulte informações sobre plantas
+                            e suas principais características.
+                        </p>
+
+                        <a
+                            href="/plantas/"
+                            class="card-link"
+                        >
+                            Ver plantas
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BIOMAS -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🌎
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Biomas
+                        </h3>
+
+                        <p>
+                            Conheça os diferentes biomas e suas
+                            principais características.
+                        </p>
+
+                        <a
+                            href="/biomas/"
+                            class="card-link"
+                        >
+                            Ver biomas
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ESPÉCIES -->
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🔬
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>
+                            Espécies
+                        </h3>
+
+                        <p>
+                            Consulte as espécies cadastradas
+                            no sistema.
+                        </p>
+
+                        <a
+                            href="/especies/"
+                            class="card-link"
+                        >
+                            Ver espécies
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <p>
+                © 2026 BioSistema — Sistema de Biologia
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        const nome =
+            document.getElementById("nome");
+
+        const nomeUsuario =
+            document.getElementById("nomeUsuario");
+
+        const btnLogout =
+            document.getElementById("btnLogout");
+
+        const mensagemErro =
+            document.getElementById("mensagemErro");
+
+
+        /*
+         * =====================================================
+         * O TOKEN É PEGADO DO LOCALSTORAGE
+         * =====================================================
+         */
+
+        const token =
+            localStorage.getItem("token");
+
+
+        /*
+         * =====================================================
+         * REDIRECIONAR PARA LOGIN
+         * =====================================================
+         */
+
+        function redirecionarParaLogin() {
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("usuario");
+
+            window.location.href = "/login";
+
+        }
+
+
+        /*
+         * =====================================================
+         * VERIFICAR AUTENTICAÇÃO
+         * =====================================================
+         */
+
+        async function verificarAutenticacao() {
+
+            /*
+             * Não existe token no navegador.
+             */
+
+            if (!token) {
+
+                redirecionarParaLogin();
+
+                return;
+
+            }
+
+
+            try {
+
+                /*
+                 * O token é enviado para o backend.
+                 */
+
+                const resposta =
+                    await fetch("/usuarios/me", {
+
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        }
+
+                    });
+
+
+                /*
+                 * Token inválido, expirado ou inativo.
+                 */
+
+                if (!resposta.ok) {
+
+                    redirecionarParaLogin();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Token válido.
+                 */
+
+                const usuario =
+                    await resposta.json();
+
+
+                /*
+                 * Mostra o usuário.
+                 */
+
+                nome.textContent =
+                    usuario.nome;
+
+                nomeUsuario.textContent =
+                    usuario.nome;
+
+
+                /*
+                 * Atualiza os dados locais.
+                 */
+
+                localStorage.setItem(
+                    "usuario",
+                    JSON.stringify(usuario)
+                );
+
+
+            } catch (erro) {
+
+                mensagemErro.hidden = false;
+
+                mensagemErro.textContent =
+                    "Não foi possível verificar sua sessão.";
+
+            }
+
+        }
+
+
+        /*
+         * =====================================================
+         * LOGOUT
+         * =====================================================
+         */
+
+        async function realizarLogout() {
+
+            btnLogout.disabled = true;
+
+            try {
+
+                await fetch("/logout/", {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    }
+
+                });
+
+            } finally {
+
+                /*
+                 * Remove o token localmente.
+                 */
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("usuario");
+
+                /*
+                 * Volta para o login.
+                 */
+
+                window.location.href = "/login";
+
+            }
+
+        }
+
+
+        /*
+         * =====================================================
+         * BOTÃO LOGOUT
+         * =====================================================
+         */
+
+        btnLogout.addEventListener(
+            "click",
+            realizarLogout
+        );
+
+
+        /*
+         * =====================================================
+         * INICIALIZAÇÃO
+         * =====================================================
+         */
+
+        verificarAutenticacao();
+
+    </script>
+
+</body>
+
+</html>
+

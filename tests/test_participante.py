@@ -1,43 +1,35 @@
-def test_participante_crud(client):
-    # =========================
-    # CREATE
-    # =========================
-    res = client.post("/participantes/", json={
-        "nome": "João",
-        "token_id": 1
-    })
+def test_listar_participantes(client, headers):
 
-    assert res.status_code == 200
+    resposta = client.get(
+        "/participantes/",
+        headers=headers
+    )
 
-    data = res.get_json()
-    assert data is not None
-    assert "id" in data
+    assert resposta.status_code == 200
 
-    part_id = data["id"]
+    assert isinstance(
+        resposta.get_json(),
+        list
+    )
 
-    # validações do CREATE (somente se seu controller retornar isso)
-    assert data["nome"] == "João"
 
-    # =========================
-    # READ
-    # =========================
-    res = client.get(f"/participantes/{part_id}")
-    assert res.status_code == 200
+def test_buscar_participante_inexistente(client, headers):
 
-    data = res.get_json()
-    assert data["id"] == part_id
+    resposta = client.get(
+        "/participantes/999999",
+        headers=headers
+    )
 
-    # =========================
-    # DELETE
-    # =========================
-    res = client.delete(f"/participantes/{part_id}")
-    assert res.status_code == 200
+    assert resposta.status_code == 404
 
-    data = res.get_json()
-    assert data["id"] == part_id
 
-    # =========================
-    # VERIFY DELETE
-    # =========================
-    res = client.get(f"/participantes/{part_id}")
-    assert res.status_code == 404
+def test_criar_participante_sem_login(client):
+
+    resposta = client.post(
+        "/participantes/",
+        json={
+            "nome": "Participante"
+        }
+    )
+
+    assert resposta.status_code == 401

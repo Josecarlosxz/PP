@@ -1,0 +1,531 @@
+/* ============================================================
+   PÁGINA DE CADASTRO
+============================================================ */
+
+.cadastro-page {
+    min-height: 100vh;
+
+    display: flex;
+}
+
+
+/* ============================================================
+   LADO DA MARCA — 50%
+============================================================ */
+
+.cadastro-brand {
+    width: 50%;
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 60px;
+
+    background: #198754;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   DECORAÇÃO
+============================================================ */
+
+.cadastro-brand::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    top: -180px;
+    left: -180px;
+}
+
+
+.cadastro-brand::after {
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    border-radius: 50%;
+
+    background: rgba(18, 99, 61, 0.25);
+
+    right: -150px;
+    bottom: -180px;
+}
+
+
+/* ============================================================
+   CONTEÚDO DA MARCA
+============================================================ */
+
+.cadastro-brand-content {
+    width: 100%;
+    max-width: 500px;
+
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   LOGO
+============================================================ */
+
+.cadastro-brand-content .logo {
+    width: 220px;
+    height: 220px;
+
+    object-fit: contain;
+
+    margin-bottom: 30px;
+}
+
+
+/* ============================================================
+   TÍTULO
+============================================================ */
+
+.cadastro-brand-content h1 {
+    color: #ffffff;
+
+    font-size: 48px;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+
+/* ============================================================
+   DESCRIÇÃO
+============================================================ */
+
+.cadastro-brand-content p {
+    color: #effff6;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   LADO DO FORMULÁRIO — 50%
+============================================================ */
+
+.cadastro-form-section {
+    width: 50%;
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 35px;
+
+    background: #f8faf9;
+}
+
+
+/* ============================================================
+   CARD DO CADASTRO
+============================================================ */
+
+.cadastro-card {
+    width: 100%;
+
+    max-width: 700px;
+
+    min-height: calc(100vh - 70px);
+
+    padding: 65px 65px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    background: #ffffff;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ============================================================
+   CABEÇALHO
+============================================================ */
+
+.cadastro-header {
+    margin-bottom: 35px;
+}
+
+
+.cadastro-header h2 {
+    color: #12633d;
+
+    font-size: 40px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+
+.cadastro-header p {
+    color: #777777;
+
+    font-size: 17px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   INPUT GROUP
+============================================================ */
+
+.cadastro-card .input-group {
+    margin-bottom: 22px;
+}
+
+
+/* ============================================================
+   LABEL
+============================================================ */
+
+.cadastro-card .input-group label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #333333;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   INPUT
+============================================================ */
+
+.cadastro-card .input-group input {
+    width: 100%;
+
+    height: 58px;
+
+    padding: 0 20px;
+
+    border: 1px solid #dddddd;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #222222;
+
+    font-size: 16px;
+
+    transition: 0.2s;
+}
+
+
+.cadastro-card .input-group input::placeholder {
+    color: #999999;
+}
+
+
+.cadastro-card .input-group input:focus {
+    border-color: #198754;
+
+    box-shadow:
+        0 0 0 4px rgba(25, 135, 84, 0.12);
+}
+
+
+/* ============================================================
+   MENSAGEM DE ERRO
+============================================================ */
+
+.mensagem-erro {
+    margin-bottom: 18px;
+
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    background: #ffe8ed;
+
+    color: #c6284f;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   MENSAGEM DE SUCESSO
+============================================================ */
+
+.mensagem-sucesso {
+    margin-bottom: 18px;
+
+    padding: 13px 15px;
+
+    border-radius: 10px;
+
+    background: #e8f7ef;
+
+    color: #12633d;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   BOTÃO CADASTRAR
+============================================================ */
+
+#btnCadastro {
+    width: 100%;
+
+    height: 59px;
+
+    margin-top: 4px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #ff5b91;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+#btnCadastro:hover {
+    background: #f44981;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(255, 91, 145, 0.25);
+}
+
+
+#btnCadastro:active {
+    transform: translateY(0);
+}
+
+
+#btnCadastro:disabled {
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ============================================================
+   RODAPÉ
+============================================================ */
+
+.cadastro-footer {
+    margin-top: 28px;
+
+    text-align: center;
+}
+
+
+.cadastro-footer p {
+    color: #777777;
+
+    margin-bottom: 9px;
+
+    font-size: 15px;
+}
+
+
+.cadastro-footer a {
+    color: #198754;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+.cadastro-footer a:hover {
+    color: #12633d;
+
+    text-decoration: underline;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1000px) {
+
+    .cadastro-brand {
+        padding: 40px;
+    }
+
+
+    .cadastro-brand-content .logo {
+        width: 180px;
+        height: 180px;
+    }
+
+
+    .cadastro-brand-content h1 {
+        font-size: 40px;
+    }
+
+
+    .cadastro-form-section {
+        padding: 25px;
+    }
+
+
+    .cadastro-card {
+        padding: 50px 40px;
+
+        min-height: calc(100vh - 50px);
+    }
+
+}
+
+
+/* ============================================================
+   CELULAR
+============================================================ */
+
+@media (max-width: 800px) {
+
+    .cadastro-page {
+        flex-direction: column;
+    }
+
+
+    /* --------------------------------------------------------
+       MARCA
+    -------------------------------------------------------- */
+
+    .cadastro-brand {
+        width: 100%;
+
+        min-height: 330px;
+
+        padding: 40px 25px;
+    }
+
+
+    .cadastro-brand-content .logo {
+        width: 130px;
+        height: 130px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .cadastro-brand-content h1 {
+        font-size: 32px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .cadastro-brand-content p {
+        font-size: 15px;
+    }
+
+
+    /* --------------------------------------------------------
+       FORMULÁRIO
+    -------------------------------------------------------- */
+
+    .cadastro-form-section {
+        width: 100%;
+
+        min-height: auto;
+
+        padding: 20px;
+    }
+
+
+    .cadastro-card {
+        min-height: auto;
+
+        max-width: 600px;
+
+        padding: 40px 25px;
+
+        border-radius: 18px;
+    }
+
+
+    .cadastro-header {
+        margin-bottom: 30px;
+    }
+
+
+    .cadastro-header h2 {
+        font-size: 30px;
+    }
+
+
+    .cadastro-card .input-group input {
+        height: 54px;
+    }
+
+
+    #btnCadastro {
+        height: 54px;
+    }
+
+}

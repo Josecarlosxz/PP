@@ -1,121 +1,177 @@
-from flask import Blueprint, request, jsonify
-from backend.database import SessionLocal
+from flask import Blueprint, jsonify
+
+from backend.database.database import SessionLocal
 from backend.models.token import Token
-from datetime import datetime
-
-token_bp = Blueprint("token", __name__, url_prefix="/tokens")
+from backend.utils.auth import admin_required
 
 
-@token_bp.route("/", methods=["POST"])
-def create():
-    db = SessionLocal()
-    data = request.get_json()
+token_bp = Blueprint(
+    "token",
+    __name__,
+    url_prefix="/tokens"
+)
 
-    obj = Token(
-        codigo=data["codigo"],
-        ativo=data["ativo"],
-        expira_em=datetime.fromisoformat(data["expira_em"]),
-        usuario_id=data["usuario_id"]
-    )
 
-    db.add(obj)
-    db.commit()
-    db.refresh(obj)
-
-    response = {
-        "id": obj.id,
-        "codigo": obj.codigo,
-        "ativo": obj.ativo,
-        "expira_em": obj.expira_em.isoformat(),
-        "usuario_id": obj.usuario_id
-    }
-
-    db.close()
-    return jsonify(response)
-
+# ============================================================
+# LISTAR TOKENS
+# ============================================================
 
 @token_bp.route("/", methods=["GET"])
+@admin_required
 def get_all():
+
     db = SessionLocal()
-    dados = db.query(Token).all()
 
-    response = [{
-        "id": t.id,
-        "codigo": t.codigo,
-        "ativo": t.ativo,
-        "expira_em": t.expira_em,
-        "usuario_id": t.usuario_id
-    } for t in dados]
+    try:
 
-    db.close()
-    return jsonify(response)
+        dados = db.query(Token).all()
 
+        return jsonify([
+            {
+                "id": token.id,
+                "ativo": token.ativo,
+                "expira_em": (
+                    token.expira_em.isoformat()
+                    if token.expira_em
+                    else None
+                ),
+                "usuario_id": token.usuario_id
+            }
+            for token in dados
+        ]), 200
+
+    finally:
+
+        db.close()
+
+
+# ============================================================
+# BUSCAR TOKEN
+# ============================================================
 
 @token_bp.route("/<int:id>", methods=["GET"])
+@admin_required
 def get_by_id(id):
+
     db = SessionLocal()
-    obj = db.query(Token).filter(Token.id == id).first()
 
-    if not obj:
+    try:
+
+        token = (
+            db.query(Token)
+            .filter(Token.id == id)
+            .first()
+        )
+
+        if not token:
+            return jsonify({
+                "erro": "Token não encontrado"
+            }), 404
+
+        return jsonify({
+            "id": token.id,
+            "ativo": token.ativo,
+            "expira_em": (
+                token.expira_em.isoformat()
+                if token.expira_em
+                else None
+            ),
+            "usuario_id": token.usuario_id
+        }), 200
+
+    finally:
+
         db.close()
-        return jsonify({"erro": "não encontrado"}), 404
-
-    response = {
-        "id": obj.id,
-        "codigo": obj.codigo,
-        "ativo": obj.ativo,
-        "expira_em": obj.expira_em,
-        "usuario_id": obj.usuario_id
-    }
-
-    db.close()
-    return jsonify(response)
 
 
-@token_bp.route("/<int:id>", methods=["PUT"])
-def update(id):
+# ============================================================
+# DESATIVAR TOKEN
+# ============================================================
+
+@token_bp.route("/<int:id>/desativar", methods=["PUT"])
+@admin_required
+def deactivate(id):
+
     db = SessionLocal()
-    data = request.get_json()
 
-    obj = db.query(Token).filter(Token.id == id).first()
-    if not obj:
+    try:
+
+        token = (
+            db.query(Token)
+            .filter(Token.id == id)
+            .first()
+        )
+
+        if not token:
+            return jsonify({
+                "erro": "Token não encontrado"
+            }), 404
+
+        token.ativo = False
+
+        db.commit()
+        db.refresh(token)
+
+        return jsonify({
+            "mensagem": "Token desativado com sucesso",
+            "id": token.id,
+            "ativo": token.ativo
+        }), 200
+
+    except Exception:
+
+        db.rollback()
+
+        return jsonify({
+            "erro": "Erro ao desativar token"
+        }), 500
+
+    finally:
+
         db.close()
-        return jsonify({"erro": "não encontrado"}), 404
 
-    obj.codigo = data.get("codigo", obj.codigo)
-    obj.ativo = data.get("ativo", obj.ativo)
 
-    if "expira_em" in data:
-        obj.expira_em = datetime.fromisoformat(data["expira_em"])
-
-    db.commit()
-    db.refresh(obj)
-
-    response = {
-        "id": obj.id,
-        "codigo": obj.codigo,
-        "ativo": obj.ativo,
-        "expira_em": obj.expira_em.isoformat(),
-        "usuario_id": obj.usuario_id
-    }
-
-    db.close()
-    return jsonify(response)
-
+# ============================================================
+# DELETAR TOKEN
+# ============================================================
 
 @token_bp.route("/<int:id>", methods=["DELETE"])
+@admin_required
 def delete(id):
+
     db = SessionLocal()
 
-    obj = db.query(Token).filter(Token.id == id).first()
-    if not obj:
+    try:
+
+        token = (
+            db.query(Token)
+            .filter(Token.id == id)
+            .first()
+        )
+
+        if not token:
+            return jsonify({
+                "erro": "Token não encontrado"
+            }), 404
+
+        token_id = token.id
+
+        db.delete(token)
+        db.commit()
+
+        return jsonify({
+            "mensagem": "Token deletado com sucesso",
+            "id": token_id
+        }), 200
+
+    except Exception:
+
+        db.rollback()
+
+        return jsonify({
+            "erro": "Erro ao deletar token"
+        }), 500
+
+    finally:
+
         db.close()
-        return jsonify({"erro": "não encontrado"}), 404
-
-    token_id = obj.id
-
-    db.delete(obj)
-    db.commit()
-    db.close()
-
-    return jsonify({"msg": "deletado", "id": token_id})

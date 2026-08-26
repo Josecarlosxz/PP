@@ -1,22 +1,50 @@
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from backend.database import Base
+
+from backend.database.database import Base
 
 
 class Especie(Base):
     __tablename__ = "especies"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(
+        primary_key=True
+    )
 
-    nome_popular: Mapped[str] = mapped_column(String(100), nullable=False)
-    nome_cientifico: Mapped[str] = mapped_column(String(150), nullable=False)
-    descricao: Mapped[str] = mapped_column(String(255))
+    nome_popular: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False
+    )
 
-    tipo: Mapped[str] = mapped_column(String(20))  # discriminator
+    nome_cientifico: Mapped[str] = mapped_column(
+        String(150),
+        nullable=False
+    )
 
-    usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id"))
+    descricao: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True
+    )
 
-    usuario = relationship("Usuario", back_populates="especies")
+    tipo: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default="especie"
+    )
+
+    usuario_id: Mapped[int] = mapped_column(
+        ForeignKey(
+            "usuarios.id",
+            ondelete="CASCADE"
+        ),
+        nullable=False,
+        index=True
+    )
+
+    usuario = relationship(
+        "Usuario",
+        back_populates="especies"
+    )
 
     biomas = relationship(
         "EspecieBioma",
@@ -24,7 +52,6 @@ class Especie(Base):
         cascade="all, delete-orphan"
     )
 
-    # 🔥 IMPORTANTE
     __mapper_args__ = {
         "polymorphic_on": tipo,
         "polymorphic_identity": "especie",

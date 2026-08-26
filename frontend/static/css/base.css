@@ -1,0 +1,75 @@
+
+/* ============================================================
+   RESET GLOBAL
+============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   VARIÁVEIS DO SISTEMA
+============================================================ */
+
+:root {
+    --verde-principal: #198754;
+    --verde-escuro: #12633D;
+    --verde-claro: #eaf7f0;
+
+    --rosa: #FF5B91;
+    --rosa-hover: #f44981;
+
+    --branco: #ffffff;
+    --cinza-fundo: #f5f8f6;
+    --cinza-texto: #333333;
+    --cinza-secundario: #777777;
+    --cinza-borda: #dddddd;
+
+    --erro-fundo: #ffe8ed;
+    --erro-texto: #c6284f;
+
+    --raio-pequeno: 10px;
+    --raio-medio: 14px;
+    --raio-grande: 22px;
+}
+
+
+/* ============================================================
+   BODY
+============================================================ */
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: var(--cinza-texto);
+
+    background: var(--cinza-fundo);
+}
+
+
+/* ============================================================
+   LINKS
+============================================================ */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* ============================================================
+   BOTÕES
+============================================================ */
+
+button {
+    font-family: inherit;
+}
+

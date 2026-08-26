@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login - BioSistema</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <!-- =================================================
+             LADO DA LOGO
+        ================================================== -->
+
+        <section class="login-brand">
+
+            <div class="brand-content">
+
+                <img
+                    src="{{ url_for('static', filename='img/logo.png') }}"
+                    alt="Logo BioSistema"
+                    class="logo"
+                >
+
+                <h1>
+                    BioSistema
+                </h1>
+
+                <p>
+                    Explore informações sobre animais,
+                    plantas, espécies e biomas.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LADO DO LOGIN
+        ================================================== -->
+
+        <section class="login-form-section">
+
+            <div class="login-form">
+
+                <div class="login-header">
+
+                    <h2>
+                        Bem-vindo!
+                    </h2>
+
+                    <p>
+                        Entre na sua conta para continuar.
+                    </p>
+
+                </div>
+
+
+                <form id="loginForm">
+
+                    <!-- EMAIL -->
+
+                    <div class="input-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Digite seu email"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- SENHA -->
+
+                    <div class="input-group">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Digite sua senha"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ERRO -->
+
+                    <div
+                        id="mensagemErro"
+                        class="mensagem-erro"
+                        hidden
+                    >
+                    </div>
+
+
+                    <!-- BOTÃO -->
+
+                    <button
+                        type="submit"
+                        id="btnLogin"
+                    >
+                        Entrar
+                    </button>
+
+                </form>
+
+
+                <!-- CADASTRO -->
+
+                <div class="login-footer">
+
+                    <p>
+                        Ainda não possui uma conta?
+                    </p>
+
+                    <a href="{{ url_for('cadastro_page') }}">
+                        Criar conta
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const form =
+            document.getElementById("loginForm");
+
+        const mensagemErro =
+            document.getElementById("mensagemErro");
+
+        const btnLogin =
+            document.getElementById("btnLogin");
+
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            mensagemErro.hidden = true;
+            mensagemErro.textContent = "";
+
+            btnLogin.disabled = true;
+            btnLogin.textContent = "Entrando...";
+
+
+            const email =
+                document.getElementById("email").value
+                    .trim()
+                    .toLowerCase();
+
+            const senha =
+                document.getElementById("senha").value;
+
+
+            try {
+
+                const resposta = await fetch("/login/", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        senha: senha
+                    })
+
+                });
+
+
+                const dados =
+                    await resposta.json();
+
+
+                if (!resposta.ok) {
+
+                    mensagemErro.hidden = false;
+
+                    mensagemErro.textContent =
+                        dados.erro ||
+                        "Email ou senha inválidos.";
+
+                    return;
+                }
+
+
+                /*
+                 * Salva o token recebido
+                 * pelo backend.
+                 */
+
+                localStorage.setItem(
+                    "token",
+                    dados.token
+                );
+
+
+                /*
+                 * Salva os dados do usuário.
+                 */
+
+                if (dados.usuario) {
+
+                    localStorage.setItem(
+                        "usuario",
+                        JSON.stringify(dados.usuario)
+                    );
+
+                }
+
+
+                /*
+                 * Vai para a Home.
+                 */
+
+                window.location.href = "/home";
+
+
+            } catch (erro) {
+
+                mensagemErro.hidden = false;
+
+                mensagemErro.textContent =
+                    "Não foi possível conectar ao servidor.";
+
+            } finally {
+
+                btnLogin.disabled = false;
+                btnLogin.textContent = "Entrar";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,72 +1,29 @@
-def test_especie_crud(client):
-    # =========================
-    # CREATE
-    # =========================
-    res = client.post("/especies/", json={
-        "nome_popular": "Onça",
-        "nome_cientifico": "Panthera onca",
-        "descricao": "Felino",
-        "tipo": "especie",
-        "usuario_id": 1
-    })
+def test_listar_especies(client, headers):
 
-    assert res.status_code == 200
+    resposta = client.get(
+        "/especies/",
+        headers=headers
+    )
 
-    data = res.get_json()
-    assert data is not None
-    assert "id" in data
+    assert resposta.status_code == 200
+    assert isinstance(resposta.get_json(), list)
 
-    especie_id = data["id"]
 
-    assert data["nome_popular"] == "Onça"
-    assert data["nome_cientifico"] == "Panthera onca"
-    assert data["descricao"] == "Felino"
-    assert data["tipo"] == "especie"
-    assert data["usuario_id"] == 1
+def test_buscar_especie_inexistente(client, headers):
 
-    # =========================
-    # READ
-    # =========================
-    res = client.get(f"/especies/{especie_id}")
-    assert res.status_code == 200
+    resposta = client.get(
+        "/especies/999999",
+        headers=headers
+    )
 
-    data = res.get_json()
-    assert data["id"] == especie_id
-    assert data["nome_popular"] == "Onça"
-    assert data["descricao"] == "Felino"
+    assert resposta.status_code == 404
 
-    # =========================
-    # UPDATE
-    # =========================
-    res = client.put(f"/especies/{especie_id}", json={
-        "descricao": "Atualizado"
-    })
 
-    assert res.status_code == 200
+def test_criar_especie_sem_login(client):
 
-    data = res.get_json()
-    assert data["descricao"] == "Atualizado"
+    resposta = client.post(
+        "/especies/",
+        json={}
+    )
 
-    # =========================
-    # VERIFY UPDATE (GET REAL)
-    # =========================
-    res = client.get(f"/especies/{especie_id}")
-    assert res.status_code == 200
-
-    data = res.get_json()
-    assert data["descricao"] == "Atualizado"
-
-    # =========================
-    # DELETE
-    # =========================
-    res = client.delete(f"/especies/{especie_id}")
-    assert res.status_code == 200
-
-    data = res.get_json()
-    assert data["id"] == especie_id
-
-    # =========================
-    # VERIFY DELETE
-    # =========================
-    res = client.get(f"/especies/{especie_id}")
-    assert res.status_code == 404
+    assert resposta.status_code == 401

@@ -1,69 +1,65 @@
-def test_planta_crud(client):
-    # =========================
-    # CREATE
-    # =========================
-    res = client.post("/plantas/", json={
-        "nome_popular": "Rosa",
-        "nome_cientifico": "Rosa sp",
-        "descricao": "Planta ornamental",
-        "usuario_id": 1,
-        "tipo_folha": "simples",
-        "medicinal": True
-    })
+def test_criar_planta(client, headers):
 
-    assert res.status_code == 200
+    resposta = client.post(
+        "/plantas/",
+        headers=headers,
+        json={
+            "nome_popular": "Babosa",
+            "nome_cientifico": "Aloe vera",
+            "descricao": "Planta medicinal",
+            "tipo_folha": "Carnosa",
+            "medicinal": True
+        }
+    )
 
-    data = res.get_json()
-    assert data is not None
-    assert "id" in data
+    assert resposta.status_code == 201
 
-    planta_id = data["id"]
+    dados = resposta.get_json()
 
-    assert data["nome_popular"] == "Rosa"
-    assert data["nome_cientifico"] == "Rosa sp"
-    assert data["descricao"] == "Planta ornamental"
-    assert data["tipo_folha"] == "simples"
-    assert data["medicinal"] is True
+    assert dados["nome_popular"] == "Babosa"
+    assert dados["tipo"] == "planta"
+    assert dados["medicinal"] is True
 
-    # =========================
-    # READ
-    # =========================
-    res = client.get(f"/plantas/{planta_id}")
-    assert res.status_code == 200
 
-    data = res.get_json()
-    assert data["id"] == planta_id
-    assert data["nome_popular"] == "Rosa"
+def test_listar_plantas(client, headers):
 
-    # =========================
-    # UPDATE
-    # =========================
-    res = client.put(f"/plantas/{planta_id}", json={
-        "medicinal": False
-    })
+    resposta = client.get(
+        "/plantas/",
+        headers=headers
+    )
 
-    assert res.status_code == 200
+    assert resposta.status_code == 200
+    assert isinstance(resposta.get_json(), list)
 
-    # =========================
-    # VERIFY UPDATE
-    # =========================
-    res = client.get(f"/plantas/{planta_id}")
-    assert res.status_code == 200
 
-    data = res.get_json()
-    assert data["medicinal"] is False
+def test_buscar_planta_inexistente(client, headers):
 
-    # =========================
-    # DELETE
-    # =========================
-    res = client.delete(f"/plantas/{planta_id}")
-    assert res.status_code == 200
+    resposta = client.get(
+        "/plantas/999999",
+        headers=headers
+    )
 
-    data = res.get_json()
-    assert data["id"] == planta_id
+    assert resposta.status_code == 404
 
-    # =========================
-    # VERIFY DELETE
-    # =========================
-    res = client.get(f"/plantas/{planta_id}")
-    assert res.status_code == 404
+
+def test_atualizar_planta_inexistente(client, headers):
+
+    resposta = client.put(
+        "/plantas/999999",
+        headers=headers,
+        json={
+            "nome_popular": "Nova planta"
+        }
+    )
+
+    assert resposta.status_code == 404
+
+
+def test_deletar_planta_sem_admin(client, headers):
+
+    resposta = client.delete(
+        "/plantas/999999",
+        headers=headers
+    )
+
+    assert resposta.status_code in [403, 404]

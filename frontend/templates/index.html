@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BioSistema</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/base.css') }}">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/index.css') }}">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            BioSistema
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="#sobre">
+                Sobre
+            </a>
+
+            <a href="#recursos">
+                Recursos
+            </a>
+
+            <a href="{{ url_for('login_page') }}"
+               class="btn-login">
+                Entrar
+            </a>
+
+            <a href="{{ url_for('cadastro_page') }}"
+               class="btn-cadastro">
+                Criar conta
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="hero-tag">
+                    🌱 Sistema de Biologia
+                </span>
+
+                <h1>
+                    Explore o mundo da
+                    <span>Biologia</span>
+                </h1>
+
+                <p>
+                    O BioSistema permite consultar e organizar
+                    informações sobre animais, plantas, espécies
+                    e biomas em um único lugar.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="{{ url_for('login_page') }}"
+                       class="btn-primary">
+                        Entrar no sistema
+                    </a>
+
+                    <a href="{{ url_for('cadastro_page') }}"
+                       class="btn-secondary">
+                        Criar uma conta
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-visual">
+
+                <div class="biology-card">
+
+                    <div class="biology-icon">
+                        🧬
+                    </div>
+
+                    <h2>
+                        Conhecimento biológico
+                    </h2>
+
+                    <p>
+                        Organize e consulte informações
+                        sobre a biodiversidade.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SOBRE
+        ================================================== -->
+
+        <section id="sobre" class="section">
+
+            <div class="section-header">
+
+                <span>
+                    SOBRE O SISTEMA
+                </span>
+
+                <h2>
+                    Conheça o BioSistema
+                </h2>
+
+                <p>
+                    Uma plataforma desenvolvida para facilitar
+                    o acesso e o gerenciamento de informações
+                    relacionadas à biologia.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RECURSOS
+        ================================================== -->
+
+        <section id="recursos" class="features">
+
+            <div class="section-header">
+
+                <span>
+                    RECURSOS
+                </span>
+
+                <h2>
+                    O que você pode encontrar
+                </h2>
+
+            </div>
+
+
+            <div class="cards">
+
+                <!-- ANIMAIS -->
+
+                <article class="card">
+
+                    <div class="card-icon">
+                        🐾
+                    </div>
+
+                    <h3>
+                        Animais
+                    </h3>
+
+                    <p>
+                        Consulte informações sobre animais,
+                        características, dieta e habitat.
+                    </p>
+
+                    <a href="{{ url_for('login_page') }}">
+                        Acessar
+                    </a>
+
+                </article>
+
+
+                <!-- PLANTAS -->
+
+                <article class="card">
+
+                    <div class="card-icon">
+                        🌿
+                    </div>
+
+                    <h3>
+                        Plantas
+                    </h3>
+
+                    <p>
+                        Consulte informações sobre plantas
+                        e suas características.
+                    </p>
+
+                    <a href="{{ url_for('login_page') }}">
+                        Acessar
+                    </a>
+
+                </article>
+
+
+                <!-- BIOMAS -->
+
+                <article class="card">
+
+                    <div class="card-icon">
+                        🌎
+                    </div>
+
+                    <h3>
+                        Biomas
+                    </h3>
+
+                    <p>
+                        Conheça os diferentes biomas e suas
+                        principais características.
+                    </p>
+
+                    <a href="{{ url_for('login_page') }}">
+                        Acessar
+                    </a>
+
+                </article>
+
+
+                <!-- ESPÉCIES -->
+
+                <article class="card">
+
+                    <div class="card-icon">
+                        🔬
+                    </div>
+
+                    <h3>
+                        Espécies
+                    </h3>
+
+                    <p>
+                        Consulte as espécies cadastradas
+                        no sistema.
+                    </p>
+
+                    <a href="{{ url_for('login_page') }}">
+                        Acessar
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CHAMADA FINAL
+        ================================================== -->
+
+        <section class="cta">
+
+            <h2>
+                Pronto para começar?
+            </h2>
+
+            <p>
+                Crie sua conta e tenha acesso ao BioSistema.
+            </p>
+
+            <a href="{{ url_for('cadastro_page') }}"
+               class="btn-primary">
+                Criar minha conta
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            © 2026 BioSistema — Sistema de Biologia
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
+

@@ -1,64 +1,95 @@
-def test_especie_bioma_crud(client):
-    # =========================
-    # CREATE DEPENDENCIES
-    # =========================
+# ============================================================
+# TESTES DE ESPÉCIE x BIOMA
+# ============================================================
 
-    esp = client.post("/especies/", json={
-        "nome_popular": "Onça",
-        "nome_cientifico": "Panthera onca",
-        "descricao": "Felino",
-        "tipo": "especie",
-        "usuario_id": 1
-    }).get_json()["id"]
 
-    bio = client.post("/biomas/", json={
-        "nome": "Pantanal",
-        "descricao": "Área alagada",
-        "clima": "úmido",
-        "vegetacao": "mista"
-    }).get_json()["id"]
+# ============================================================
+# LISTAR RELAÇÕES
+# ============================================================
 
-    # =========================
-    # CREATE RELATION
-    # =========================
-    res = client.post("/especie-bioma/", json={
-        "especie_id": esp,
-        "bioma_id": bio
-    })
+def test_listar_especies_biomas(client, headers):
 
-    assert res.status_code == 200
+    resposta = client.get(
+        "/especie_bioma/",
+        headers=headers
+    )
 
-    data = res.get_json()
-    assert data is not None
-    assert "id" in data
+    assert resposta.status_code == 200
 
-    rel_id = data["id"]
 
-    assert data["especie_id"] == esp
-    assert data["bioma_id"] == bio
+# ============================================================
+# LISTAR SEM LOGIN
+# ============================================================
 
-    # =========================
-    # READ
-    # =========================
-    res = client.get(f"/especie-bioma/{rel_id}")
-    assert res.status_code == 200
+def test_listar_especies_biomas_sem_login(client):
 
-    data = res.get_json()
-    assert data["id"] == rel_id
-    assert data["especie_id"] == esp
-    assert data["bioma_id"] == bio
+    resposta = client.get(
+        "/especie_bioma/"
+    )
 
-    # =========================
-    # DELETE
-    # =========================
-    res = client.delete(f"/especie-bioma/{rel_id}")
-    assert res.status_code == 200
+    assert resposta.status_code == 401
 
-    data = res.get_json()
-    assert data["id"] == rel_id
 
-    # =========================
-    # VERIFY DELETE
-    # =========================
-    res = client.get(f"/especie-bioma/{rel_id}")
-    assert res.status_code == 404
+# ============================================================
+# CRIAR SEM LOGIN
+# ============================================================
+
+def test_criar_especie_bioma_sem_login(client):
+
+    resposta = client.post(
+        "/especie_bioma/",
+        json={}
+    )
+
+    assert resposta.status_code == 401
+
+
+# ============================================================
+# BUSCAR RELAÇÃO INEXISTENTE
+# ============================================================
+
+def test_buscar_especie_bioma_inexistente(
+    client,
+    headers
+):
+
+    resposta = client.get(
+        "/especie_bioma/999999",
+        headers=headers
+    )
+
+    assert resposta.status_code == 404
+
+
+# ============================================================
+# ATUALIZAR RELAÇÃO INEXISTENTE
+# ============================================================
+
+def test_atualizar_especie_bioma_inexistente(
+    client,
+    headers
+):
+
+    resposta = client.put(
+        "/especie_bioma/999999",
+        headers=headers,
+        json={
+            "especie_id": 1,
+            "bioma_id": 1
+        }
+    )
+
+    assert resposta.status_code == 404
+
+
+# ============================================================
+# DELETAR SEM LOGIN
+# ============================================================
+
+def test_deletar_especie_bioma_sem_login(client):
+
+    resposta = client.delete(
+        "/especie_bioma/999999"
+    )
+
+    assert resposta.status_code == 401

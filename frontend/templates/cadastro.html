@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cadastro - BioSistema</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/cadastro.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <main class="cadastro-page">
+
+        <!-- =================================================
+             LADO ESQUERDO — MARCA
+        ================================================== -->
+
+        <section class="cadastro-brand">
+
+            <div class="cadastro-brand-content">
+
+                <img
+                    src="{{ url_for('static', filename='img/logo.png') }}"
+                    alt="Logo BioSistema"
+                    class="logo"
+                >
+
+                <h1>
+                    BioSistema
+                </h1>
+
+                <p>
+                    Explore o mundo da biologia,
+                    conheça espécies, animais,
+                    plantas e biomas.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LADO DIREITO — FORMULÁRIO
+        ================================================== -->
+
+        <section class="cadastro-form-section">
+
+            <div class="cadastro-card">
+
+                <div class="cadastro-header">
+
+                    <h2>
+                        Criar conta
+                    </h2>
+
+                    <p>
+                        Cadastre-se no BioSistema
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     FORMULÁRIO
+                ================================================== -->
+
+                <form id="cadastroForm">
+
+                    <div class="input-group">
+
+                        <label for="nome">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Digite seu nome"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Digite seu email"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Mínimo de 8 caracteres"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="confirmarSenha">
+                            Confirmar senha
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmarSenha"
+                            name="confirmarSenha"
+                            placeholder="Digite a senha novamente"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MENSAGENS -->
+
+                    <div
+                        id="mensagemErro"
+                        class="mensagem-erro"
+                        hidden
+                    ></div>
+
+                    <div
+                        id="mensagemSucesso"
+                        class="mensagem-sucesso"
+                        hidden
+                    ></div>
+
+
+                    <!-- BOTÃO -->
+
+                    <button
+                        type="submit"
+                        id="btnCadastro"
+                    >
+                        Criar conta
+                    </button>
+
+                </form>
+
+
+                <!-- =================================================
+                     FOOTER
+                ================================================== -->
+
+                <div class="cadastro-footer">
+
+                    <p>
+                        Já possui uma conta?
+                    </p>
+
+                    <a href="{{ url_for('login_page') }}">
+                        Fazer login
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        const form =
+            document.getElementById("cadastroForm");
+
+        const mensagemErro =
+            document.getElementById("mensagemErro");
+
+        const mensagemSucesso =
+            document.getElementById("mensagemSucesso");
+
+        const btnCadastro =
+            document.getElementById("btnCadastro");
+
+
+        form.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+                mensagemErro.hidden = true;
+                mensagemSucesso.hidden = true;
+
+                mensagemErro.textContent = "";
+                mensagemSucesso.textContent = "";
+
+
+                const nome =
+                    document
+                        .getElementById("nome")
+                        .value
+                        .trim();
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+                const senha =
+                    document
+                        .getElementById("senha")
+                        .value;
+
+                const confirmarSenha =
+                    document
+                        .getElementById("confirmarSenha")
+                        .value;
+
+
+                /* =============================================
+                   VALIDA SENHAS
+                ============================================= */
+
+                if (senha !== confirmarSenha) {
+
+                    mensagemErro.textContent =
+                        "As senhas não coincidem.";
+
+                    mensagemErro.hidden = false;
+
+                    return;
+                }
+
+
+                /* =============================================
+                   DESABILITA BOTÃO
+                ============================================= */
+
+                btnCadastro.disabled = true;
+
+                btnCadastro.textContent =
+                    "Criando conta...";
+
+
+                try {
+
+                    const resposta =
+                        await fetch(
+                            "/usuarios/",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    nome: nome,
+                                    email: email,
+                                    senha: senha
+                                })
+                            }
+                        );
+
+
+                    const dados =
+                        await resposta.json();
+
+
+                    /* =========================================
+                       ERRO
+                    ========================================= */
+
+                    if (!resposta.ok) {
+
+                        mensagemErro.textContent =
+                            dados.erro ||
+                            "Erro ao realizar cadastro.";
+
+                        mensagemErro.hidden = false;
+
+                        return;
+                    }
+
+
+                    /* =========================================
+                       SUCESSO
+                    ========================================= */
+
+                    mensagemSucesso.textContent =
+                        "Cadastro realizado com sucesso!";
+
+                    mensagemSucesso.hidden = false;
+
+                    form.reset();
+
+
+                    setTimeout(function() {
+
+                        window.location.href =
+                            "/login";
+
+                    }, 1500);
+
+
+                } catch (erro) {
+
+                    mensagemErro.textContent =
+                        "Não foi possível conectar ao servidor.";
+
+                    mensagemErro.hidden = false;
+
+                } finally {
+
+                    btnCadastro.disabled = false;
+
+                    btnCadastro.textContent =
+                        "Criar conta";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
+

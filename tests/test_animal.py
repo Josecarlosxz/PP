@@ -1,75 +1,89 @@
-def test_animal_crud(client):
-    # =========================
-    # CREATE
-    # =========================
-    res = client.post("/animais/", json={
-        "nome_popular": "Leão",
-        "nome_cientifico": "Panthera leo",
-        "descricao": "Felino",
-        "usuario_id": 1,
-        "dieta": "carnívoro",
-        "habitat_especifico": "savana"
-    })
 
-    assert res.status_code == 200
+def test_deletar_animal_existente(client, admin_headers):
 
-    data = res.get_json()
-    assert data is not None
-    assert "id" in data
+    # --------------------------------------------------------
+    # CRIAR ANIMAL
+    # --------------------------------------------------------
 
-    animal_id = data["id"]
+    criar = client.post(
+        "/animais/",
+        headers=admin_headers,
+        json={
+            "nome_popular": "Tamanduá-bandeira",
+            "nome_cientifico": "Myrmecophaga tridactyla",
+            "descricao": "Mamífero brasileiro",
+            "dieta": "Insetívora",
+            "habitat_especifico": "Cerrado"
+        }
+    )
 
-    assert data["nome_popular"] == "Leão"
-    assert data["dieta"] == "carnívoro"
-    assert data["habitat_especifico"] == "savana"
+    assert criar.status_code == 201
 
-    # =========================
-    # READ
-    # =========================
-    res = client.get(f"/animais/{animal_id}")
-    assert res.status_code == 200
+    animal_id = criar.get_json()["id"]
 
-    data = res.get_json()
-    assert data["id"] == animal_id
-    assert data["nome_popular"] == "Leão"
-    assert data["descricao"] == "Felino"
-    assert data["dieta"] == "carnívoro"
+    # --------------------------------------------------------
+    # DELETAR
+    # --------------------------------------------------------
 
-    # =========================
-    # UPDATE
-    # =========================
-    res = client.put(f"/animais/{animal_id}", json={
-        "dieta": "onívoro",
-        "habitat_especifico": "floresta"
-    })
+    resposta = client.delete(
+        f"/animais/{animal_id}",
+        headers=admin_headers
+    )
 
-    assert res.status_code == 200
+    assert resposta.status_code == 200
 
-    data = res.get_json()
-    assert data["dieta"] == "onívoro"
-    assert data["habitat_especifico"] == "floresta"
+    dados = resposta.get_json()
 
-    # =========================
-    # VERIFY UPDATE (GET REAL)
-    # =========================
-    res = client.get(f"/animais/{animal_id}")
-    assert res.status_code == 200
+    assert dados["id"] == animal_id
+    assert dados["mensagem"] == "Animal deletado com sucesso"
 
-    data = res.get_json()
-    assert data["dieta"] == "onívoro"
-    assert data["habitat_especifico"] == "floresta"
 
-    # =========================
-    # DELETE
-    # =========================
-    res = client.delete(f"/animais/{animal_id}")
-    assert res.status_code == 200
+# ============================================================
+# PROFESSOR NÃO PODE DELETAR
+# ============================================================
 
-    data = res.get_json()
-    assert data["id"] == animal_id
+def test_professor_nao_pode_deletar_animal(
+    client,
+    headers
+):
 
-    # =========================
-    # VERIFY DELETE
-    # =========================
-    res = client.get(f"/animais/{animal_id}")
-    assert res.status_code == 404
+    criar = client.post(
+        "/animais/",
+        headers=headers,
+        json={
+            "nome_popular": "Capivara",
+            "nome_cientifico": "Hydrochoerus hydrochaeris",
+            "descricao": "Roedor",
+            "dieta": "Herbívora",
+            "habitat_especifico": "Áreas próximas à água"
+        }
+    )
+
+    assert criar.status_code == 201
+
+    animal_id = criar.get_json()["id"]
+
+    resposta = client.delete(
+        f"/animais/{animal_id}",
+        headers=headers
+    )
+
+    assert resposta.status_code == 403
+
+
+# ============================================================
+# ADMIN DELETA ANIMAL INEXISTENTE
+# ============================================================
+
+def test_admin_deletar_animal_inexistente(
+    client,
+    admin_headers
+):
+
+    resposta = client.delete(
+        "/animais/999999",
+        headers=admin_headers
+    )
+
+    assert resposta.status_code == 404
+

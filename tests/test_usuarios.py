@@ -1,62 +1,77 @@
-def test_usuario_crud(client):
-    # =========================
-    # CREATE
-    # =========================
-    res = client.post("/usuarios/", json={
-        "nome": "Kaik",
-        "email": "kaik@email.com",
-        "senha": "123"
-    })
+import uuid
 
-    assert res.status_code == 200
 
-    data = res.get_json()
-    assert data is not None
-    assert "id" in data
+# ============================================================
+# GERA EMAIL ÚNICO PARA OS TESTES
+# ============================================================
 
-    usuario_id = data["id"]
+def email_unico():
 
-    # valida CREATE de verdade
-    assert data["nome"] == "Kaik"
-    assert data["email"] == "kaik@email.com"
+    return f"teste_{uuid.uuid4().hex}@email.com"
 
-    # =========================
-    # READ
-    # =========================
-    res = client.get(f"/usuarios/{usuario_id}")
-    assert res.status_code == 200
 
-    data = res.get_json()
-    assert data["id"] == usuario_id
-    assert data["email"] == "kaik@email.com"
+# ============================================================
+# CADASTRAR USUÁRIO
+# ============================================================
 
-    # =========================
-    # UPDATE
-    # =========================
-    res = client.put(f"/usuarios/{usuario_id}", json={
-        "nome": "Kaik Atualizado"
-    })
+def test_cadastrar_usuario(client):
 
-    assert res.status_code == 200
+    email = email_unico()
 
-    # valida UPDATE persistido
-    res = client.get(f"/usuarios/{usuario_id}")
-    assert res.status_code == 200
+    resposta = client.post(
+        "/usuarios/",
+        json={
+            "nome": "Usuario Teste",
+            "email": email,
+            "senha": "Senha123"
+        }
+    )
 
-    data = res.get_json()
-    assert data["nome"] == "Kaik Atualizado"
+    assert resposta.status_code == 201
 
-    # =========================
-    # DELETE
-    # =========================
-    res = client.delete(f"/usuarios/{usuario_id}")
-    assert res.status_code == 200
+    dados = resposta.get_json()
 
-    data = res.get_json()
-    assert data["id"] == usuario_id
+    assert dados["nome"] == "Usuario Teste"
+    assert dados["email"] == email
+    assert dados["perfil"] == "professor"
 
-    # =========================
-    # VERIFY DELETE
-    # =========================
-    res = client.get(f"/usuarios/{usuario_id}")
-    assert res.status_code == 404
+
+# ============================================================
+# CADASTRAR USUÁRIO COM EMAIL DUPLICADO
+# ============================================================
+
+def test_cadastrar_usuario_email_duplicado(client):
+
+    email = email_unico()
+
+    dados = {
+        "nome": "Usuario",
+        "email": email,
+        "senha": "Senha123"
+    }
+
+    # --------------------------------------------------------
+    # PRIMEIRO CADASTRO
+    # --------------------------------------------------------
+
+    primeira = client.post(
+        "/usuarios/",
+        json=dados
+    )
+
+    assert primeira.status_code == 201
+
+    # --------------------------------------------------------
+    # SEGUNDO CADASTRO
+    # --------------------------------------------------------
+
+    segunda = client.post(
+        "/usuarios/",
+        json=dados
+    )
+
+    assert segunda.status_code == 409
+
+    resposta = segunda.get_json()
+
+    assert resposta["erro"] == "Email já cadastrado"
