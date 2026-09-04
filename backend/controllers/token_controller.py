@@ -29,6 +29,7 @@ def get_all():
         return jsonify([
             {
                 "id": token.id,
+                "codigo": token.codigo,
                 "ativo": token.ativo,
                 "expira_em": (
                     token.expira_em.isoformat()
@@ -71,6 +72,7 @@ def get_by_id(id):
         return jsonify({
             "id": token.id,
             "ativo": token.ativo,
+            "codigo": token.codigo,
             "expira_em": (
                 token.expira_em.isoformat()
                 if token.expira_em
