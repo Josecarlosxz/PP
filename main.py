@@ -1,25 +1,24 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask
 from dotenv import load_dotenv
 
 # CARREGA VARIÁVEIS DO .ENV
-
 load_dotenv()
 
 
+# ============================================================
 # BANCO DE DADOS
+# ============================================================
 
 from backend.database.database import engine, Base
 from backend.database.seed import criar_admin
 
 
-# CARREGA TODOS OS MODELS
-#
-# Importante:
-# Os models precisam ser importados antes do
-# Base.metadata.create_all(), para que o SQLAlchemy
-# conheça todas as tabelas.
+# ============================================================
+# MODELS
+# ============================================================
+
 from backend.models.usuario import Usuario
 from backend.models.token import Token
 from backend.models.participante import Participante
@@ -30,11 +29,21 @@ from backend.models.bioma import Bioma
 from backend.models.especie_bioma import EspecieBioma
 
 
-# IMPORT DOS CONTROLLERS
+# ============================================================
+# FRONTEND
+# ============================================================
+
+from frontend.routes import frontend_bp
+
+
+# ============================================================
+# CONTROLLERS
+# ============================================================
+
 from backend.controllers.usuario_controller import usuario_bp
 from backend.controllers.login_controller import login_bp
 from backend.controllers.logout_controller import logout_bp
-
+from backend.controllers.cadastro_controller import cadastro_bp
 from backend.controllers.especie_controller import especie_bp
 from backend.controllers.animal_controller import animal_bp
 from backend.controllers.planta_controller import planta_bp
@@ -52,8 +61,6 @@ def create_app():
         static_folder="frontend/static"
     )
 
-
-    # CONFIGURAÇÕES
     app.config["JSON_SORT_KEYS"] = False
 
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -64,7 +71,10 @@ def create_app():
         )
 
 
-    # CRIA AS TABELAS
+    # ========================================================
+    # BANCO DE DADOS
+    # ========================================================
+
     print("====================================")
     print("Verificando banco de dados...")
 
@@ -81,7 +91,11 @@ def create_app():
 
         raise
 
-    # CRIA ADMINISTRADOR
+
+    # ========================================================
+    # ADMINISTRADOR
+    # ========================================================
+
     try:
 
         criar_admin()
@@ -94,35 +108,21 @@ def create_app():
         raise
 
 
+    # ========================================================
     # FRONTEND
-    @app.route("/", methods=["GET"])
-    def index():
+    # ========================================================
 
-        return render_template("index.html")
-
-
-    @app.route("/login", methods=["GET"])
-    def login_page():
-
-        return render_template("login.html")
+    app.register_blueprint(frontend_bp)
 
 
-    @app.route("/cadastro", methods=["GET"])
-    def cadastro_page():
-
-        return render_template("cadastro.html")
-
-
-    @app.route("/home", methods=["GET"])
-    def home_page():
-
-        return render_template("home.html")
-
+    # ========================================================
+    # CONTROLLERS
+    # ========================================================
 
     app.register_blueprint(usuario_bp)
     app.register_blueprint(login_bp)
     app.register_blueprint(logout_bp)
-
+    app.register_blueprint(cadastro_bp)
     app.register_blueprint(especie_bp)
     app.register_blueprint(animal_bp)
     app.register_blueprint(planta_bp)
@@ -131,10 +131,12 @@ def create_app():
     app.register_blueprint(token_bp)
     app.register_blueprint(participante_bp)
 
+
     return app
 
 
 app = create_app()
+
 
 if __name__ == "__main__":
 

@@ -1,282 +1,136 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% extends "base.html" %}
 
-<head>
+{% block titulo %}Login — BioSistema{% endblock %}
 
-    <meta charset="UTF-8">
+{% block estilos %}
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
 
-    <title>Login - BioSistema</title>
+{% block conteudo %}
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/base.css') }}"
-    >
+    <div class="login-page">
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/login.css') }}"
-    >
-
-</head>
-
-<body>
-
-    <main class="login-page">
-
-        <!-- =================================================
-             LADO DA LOGO
-        ================================================== -->
-
+        <!-- LADO DA MARCA -->
         <section class="login-brand">
-
             <div class="brand-content">
-
-                <img
-                    src="{{ url_for('static', filename='img/logo.png') }}"
-                    alt="Logo BioSistema"
-                    class="logo"
-                >
-
-                <h1>
-                    BioSistema
-                </h1>
-
+                <div class="logo-marca" aria-hidden="true">🌿</div>
+                <h1>Bio<span>Sistema</span></h1>
                 <p>
                     Explore informações sobre animais,
                     plantas, espécies e biomas.
                 </p>
-
             </div>
-
         </section>
 
-
-        <!-- =================================================
-             LADO DO LOGIN
-        ================================================== -->
-
+        <!-- LADO DO FORMULÁRIO -->
         <section class="login-form-section">
-
             <div class="login-form">
 
                 <div class="login-header">
-
-                    <h2>
-                        Bem-vindo!
-                    </h2>
-
-                    <p>
-                        Entre na sua conta para continuar.
-                    </p>
-
+                    <h2>Bem-vindo!</h2>
+                    <p>Entre na sua conta para continuar.</p>
                 </div>
 
-
-                <form id="loginForm">
-
-                    <!-- EMAIL -->
+                <form id="loginForm" novalidate>
 
                     <div class="input-group">
-
-                        <label for="email">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Digite seu email"
-                            maxlength="100"
-                            required
-                        >
-
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email"
+                               placeholder="Digite seu email"
+                               maxlength="100" required>
                     </div>
-
-
-                    <!-- SENHA -->
 
                     <div class="input-group">
-
-                        <label for="senha">
-                            Senha
-                        </label>
-
-                        <input
-                            type="password"
-                            id="senha"
-                            name="senha"
-                            placeholder="Digite sua senha"
-                            required
-                        >
-
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha"
+                               placeholder="Digite sua senha" required>
                     </div>
 
+                    <div id="mensagemErro" class="mensagem-erro" hidden></div>
 
-                    <!-- ERRO -->
-
-                    <div
-                        id="mensagemErro"
-                        class="mensagem-erro"
-                        hidden
-                    >
-                    </div>
-
-
-                    <!-- BOTÃO -->
-
-                    <button
-                        type="submit"
-                        id="btnLogin"
-                    >
+                    <button type="submit" id="btnLogin" class="btn btn-secundario btn-bloco">
                         Entrar
                     </button>
 
                 </form>
 
-
-                <!-- CADASTRO -->
-
                 <div class="login-footer">
-
-                    <p>
-                        Ainda não possui uma conta?
-                    </p>
-
-                    <a href="{{ url_for('cadastro_page') }}">
-                        Criar conta
-                    </a>
-
+                    <p>Ainda não possui uma conta?</p>
+                    <a href="{{ url_for('frontend.cadastro_page') }}">Criar conta</a>
                 </div>
 
             </div>
-
         </section>
 
-    </main>
+    </div>
 
+{% endblock %}
 
-    <script>
+{% block scripts %}
+<script>
+    const { API, Sessao, Validacao, toast } = window.BioSistema;
 
-        const form =
-            document.getElementById("loginForm");
+    const form = document.getElementById("loginForm");
+    const mensagemErro = document.getElementById("mensagemErro");
+    const btnLogin = document.getElementById("btnLogin");
 
-        const mensagemErro =
-            document.getElementById("mensagemErro");
+    form.addEventListener("submit", async function (event) {
 
-        const btnLogin =
-            document.getElementById("btnLogin");
+        event.preventDefault();
+        mensagemErro.hidden = true;
+        Validacao.limparTodos(form);
 
+        const email = document.getElementById("email");
+        const senha = document.getElementById("senha");
 
-        form.addEventListener("submit", async function(event) {
+        /* Validação no cliente */
+        let valido = true;
 
-            event.preventDefault();
+        if (!Validacao.emailValido(email.value.trim())) {
+            Validacao.marcarErro(email, "Informe um email válido.");
+            valido = false;
+        }
 
-            mensagemErro.hidden = true;
-            mensagemErro.textContent = "";
+        if (!senha.value) {
+            Validacao.marcarErro(senha, "Informe sua senha.");
+            valido = false;
+        }
 
-            btnLogin.disabled = true;
-            btnLogin.textContent = "Entrando...";
+        if (!valido) { return; }
 
+        btnLogin.disabled = true;
+        btnLogin.textContent = "Entrando...";
 
-            const email =
-                document.getElementById("email").value
-                    .trim()
-                    .toLowerCase();
+        try {
 
-            const senha =
-                document.getElementById("senha").value;
+            const dados = await API.post("/login/", {
+                email: email.value.trim().toLowerCase(),
+                senha: senha.value
+            });
 
+            Sessao.salvarToken(dados.token);
+            if (dados.usuario) { Sessao.salvarUsuario(dados.usuario); }
 
-            try {
+            toast("Login realizado com sucesso!", "sucesso");
+            window.location.href = "/home";
 
-                const resposta = await fetch("/login/", {
+        } catch (erro) {
 
-                    method: "POST",
+            mensagemErro.hidden = false;
+            mensagemErro.textContent = erro.message;
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+        } finally {
 
-                    body: JSON.stringify({
-                        email: email,
-                        senha: senha
-                    })
+            btnLogin.disabled = false;
+            btnLogin.textContent = "Entrar";
 
-                });
-
-
-                const dados =
-                    await resposta.json();
-
-
-                if (!resposta.ok) {
-
-                    mensagemErro.hidden = false;
-
-                    mensagemErro.textContent =
-                        dados.erro ||
-                        "Email ou senha inválidos.";
-
-                    return;
-                }
-
-
-                /*
-                 * Salva o token recebido
-                 * pelo backend.
-                 */
-
-                localStorage.setItem(
-                    "token",
-                    dados.token
-                );
-
-
-                /*
-                 * Salva os dados do usuário.
-                 */
-
-                if (dados.usuario) {
-
-                    localStorage.setItem(
-                        "usuario",
-                        JSON.stringify(dados.usuario)
-                    );
-
-                }
-
-
-                /*
-                 * Vai para a Home.
-                 */
-
-                window.location.href = "/home";
-
-
-            } catch (erro) {
-
-                mensagemErro.hidden = false;
-
-                mensagemErro.textContent =
-                    "Não foi possível conectar ao servidor.";
-
-            } finally {
-
-                btnLogin.disabled = false;
-                btnLogin.textContent = "Entrar";
-
-            }
-
-        });
-
-    </script>
-
-</body>
-
-</html>
+        }
+    });
+</script>
+{% endblock %}

@@ -1,130 +1,21 @@
-
 /* ============================================================
-   BODY
+   HOME.CSS — Página inicial logada (tokenizado)
+   A navbar e o footer vêm de components.css.
 ============================================================ */
 
 body {
-    background: #f5f8f6;
+    background: var(--cor-fundo);
 }
-
-
-/* ============================================================
-   NAVBAR
-============================================================ */
-
-.navbar {
-    width: 100%;
-
-    background: #ffffff;
-
-    border-bottom: 1px solid #e5e5e5;
-
-    padding: 20px 50px;
-}
-
-
-.navbar-container {
-    max-width: 1300px;
-
-    margin: 0 auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-}
-
-
-/* ============================================================
-   LOGO
-============================================================ */
-
-.navbar .logo a {
-    color: #12633d;
-
-    font-size: 27px;
-
-    font-weight: 800;
-}
-
-
-/* ============================================================
-   USUÁRIO
-============================================================ */
-
-.usuario-area {
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-}
-
-
-.usuario-info {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-}
-
-
-.usuario-label {
-    color: #777777;
-
-    font-size: 14px;
-}
-
-
-.usuario-nome {
-    color: #12633d;
-
-    font-weight: 700;
-}
-
-
-/* ============================================================
-   LOGOUT
-============================================================ */
-
-.btn-logout {
-    border: none;
-
-    padding: 10px 18px;
-
-    border-radius: 9px;
-
-    background: #ff5b91;
-
-    color: #ffffff;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-
-.btn-logout:hover {
-    background: #f44981;
-}
-
 
 /* ============================================================
    CONTAINER
 ============================================================ */
 
 .home-container {
-    max-width: 1300px;
-
+    max-width: var(--largura-max);
     margin: 0 auto;
-
     padding: 70px 50px;
 }
-
 
 /* ============================================================
    WELCOME
@@ -132,244 +23,84 @@ body {
 
 .welcome {
     margin-bottom: 65px;
-
     padding: 55px;
-
-    border-radius: 24px;
-
-    background: #198754;
-
-    color: #ffffff;
-
-    box-shadow:
-        0 15px 40px rgba(25, 135, 84, 0.18);
+    border-radius: var(--raio-lg);
+    background: var(--cor-primaria);
+    color: var(--cor-branco);
+    box-shadow: var(--sombra-primaria);
 }
-
-
-.welcome-tag {
-    display: inline-block;
-
-    margin-bottom: 15px;
-
-    font-size: 14px;
-
-    font-weight: 700;
-}
-
 
 .welcome h1 {
     font-size: 42px;
-
-    margin-bottom: 15px;
+    margin-bottom: var(--esp-4);
 }
-
 
 .welcome h1 span {
-    color: #ffffff;
+    color: var(--cor-branco);
 }
-
 
 .welcome p {
     color: #eafff2;
-
-    font-size: 17px;
-
+    font-size: var(--fs-md);
     line-height: 1.6;
 }
 
-
 /* ============================================================
-   SEÇÃO
+   CARDS (grid 2 colunas na home)
 ============================================================ */
 
-.section-header {
-    margin-bottom: 35px;
-}
-
-
-.section-header > span {
-    color: #198754;
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    letter-spacing: 1px;
-}
-
-
-.section-header h2 {
-    color: #12633d;
-
-    font-size: 34px;
-
-    margin: 10px 0;
-}
-
-
-.section-header p {
-    color: #666666;
-
-    line-height: 1.6;
-}
-
-
-/* ============================================================
-   CARDS
-============================================================ */
-
-.cards {
+.home-container .cards {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 25px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--esp-6);
 }
 
-
-.card {
+.home-container .card {
     display: flex;
-
-    gap: 25px;
-
-    padding: 30px;
-
-    background: #ffffff;
-
-    border-radius: 18px;
-
-    border: 1px solid #e5e5e5;
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.05);
-
-    transition: 0.2s;
+    flex-direction: column;
 }
 
-
-.card:hover {
-    transform: translateY(-4px);
-
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.08);
+.home-container .card h2 {
+    color: var(--cor-primaria-escura);
+    font-size: var(--fs-lg);
+    margin-bottom: var(--esp-3);
 }
 
-
-.card-icon {
-    font-size: 45px;
-
-    flex-shrink: 0;
-}
-
-
-.card-content h3 {
-    color: #12633d;
-
-    font-size: 23px;
-
-    margin-bottom: 10px;
-}
-
-
-.card-content p {
-    color: #666666;
-
+.home-container .card p {
+    color: var(--cor-texto-suave);
     line-height: 1.6;
-
-    margin-bottom: 18px;
+    margin-bottom: var(--esp-5);
 }
 
-
-.card-link {
-    color: #198754;
-
-    font-weight: 700;
+.home-container .card a {
+    color: var(--cor-primaria);
+    font-weight: var(--fw-forte);
+    margin-top: auto;
 }
 
-
-.card-link:hover {
-    color: #12633d;
-
+.home-container .card a:hover {
+    color: var(--cor-primaria-escura);
     text-decoration: underline;
 }
-
-
-/* ============================================================
-   FOOTER
-============================================================ */
-
-.footer {
-    padding: 25px;
-
-    text-align: center;
-
-    background: #12633d;
-
-    color: #dff5e8;
-
-    font-size: 14px;
-}
-
 
 /* ============================================================
    RESPONSIVO
 ============================================================ */
 
 @media (max-width: 800px) {
-
-    .navbar {
-        padding: 18px 25px;
-    }
-
-
     .home-container {
         padding: 40px 25px;
     }
-
 
     .welcome {
         padding: 35px 25px;
     }
 
-
     .welcome h1 {
         font-size: 32px;
     }
 
-
-    .cards {
+    .home-container .cards {
         grid-template-columns: 1fr;
     }
-
 }
-
-
-@media (max-width: 500px) {
-
-    .usuario-label {
-        display: none;
-    }
-
-
-    .navbar-container {
-        gap: 15px;
-    }
-
-
-    .navbar .logo a {
-        font-size: 22px;
-    }
-
-
-    .usuario-area {
-        gap: 10px;
-    }
-
-
-    .card {
-        flex-direction: column;
-    }
-
-}
-
