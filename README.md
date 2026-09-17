@@ -8,7 +8,7 @@
 ### 2. Navegue até a pasta do backend:
 
 ```bash
-cd d:\Users\COMPUTER\Documents\PP\\backend
+cd d:\Users\COMPUTER\Documents\PP
 ```
 
 ### 3. (Opcional, mas recomendado) Crie e ative um ambiente virtual:
