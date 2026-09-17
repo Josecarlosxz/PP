@@ -1,6 +1,6 @@
 /* ============================================================
    BioSistema — Mapa Interativo (Fauna & Flora do Brasil)
-   Tecnologia: Leaflet + OpenStreetMap + GeoJSON
+   Tecnologia: Leaflet + GeoJSON (sem tile layer de base)
    Depende de: mapa_data.js (BIOMAS e ESTADOS)
    ============================================================ */
 
@@ -12,22 +12,31 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ----------------------------------------------------------
      1) Inicializa o mapa
      ---------------------------------------------------------- */
+  const limitesBrasil = L.latLngBounds(
+    [-35, -75], // sudoeste
+    [ 7, -32]   // nordeste
+  );
+
   const mapa = L.map("mapaBrasil", {
     center: [-14.5, -52],
     zoom: 4,
     minZoom: 3,
     maxZoom: 9,
     zoomControl: true,
-    scrollWheelZoom: false // evita "sequestrar" o scroll da página
+    scrollWheelZoom: false, // evita "sequestrar" o scroll da página
+    maxBounds: limitesBrasil,       // impede arrastar para ver outros países
+    maxBoundsViscosity: 1.0
   });
 
   /* ----------------------------------------------------------
-     2) Camada base (OpenStreetMap)
+     2) Camada base
+     ----------------------------------------------------------
+     Sem tile layer (OpenStreetMap) de propósito: o mapa-múndi de
+     fundo deixava os países vizinhos muito visíveis. Sem essa
+     camada, só aparecem os estados do Brasil (GeoJSON abaixo),
+     e o resto fica com a cor de fundo definida em mapa.css
+     (#mapaBrasil { background: ... }).
      ---------------------------------------------------------- */
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(mapa);
 
   /* ----------------------------------------------------------
      3) Legenda de biomas
