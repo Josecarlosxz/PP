@@ -7,12 +7,12 @@
 
 /* Cores oficiais de cada bioma (usadas no mapa e na legenda) */
 const BIOMAS = {
-  "Amazônia":      { cor: "#1f9d55", emoji: "🌳" },
-  "Cerrado":       { cor: "#e0a020", emoji: "🌾" },
-  "Caatinga":      { cor: "#d9822b", emoji: "🌵" },
-  "Mata Atlântica":{ cor: "#2f8fd6", emoji: "🌲" },
-  "Pantanal":      { cor: "#8e6bd6", emoji: "🐊" },
-  "Pampa":         { cor: "#5bb98c", emoji: "🐎" }
+  "Amazônia":      { cor: "#1b7a3d", emoji: "🌳" },
+  "Cerrado":       { cor: "#d9a521", emoji: "🌾" },
+  "Caatinga":      { cor: "#b5451f", emoji: "🌵" },
+  "Mata Atlântica":{ cor: "#1f8a8a", emoji: "🌲" },
+  "Pantanal":      { cor: "#7b52ab", emoji: "🐊" },
+  "Pampa":         { cor: "#4a6fa5", emoji: "🐎" }
 };
 
 /* ------------------------------------------------------------

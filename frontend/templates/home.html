@@ -118,6 +118,10 @@
     <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Turf.js (usado só para "fundir" os estados do mesmo bioma e
+         desenhar um contorno único por região, em vez de por estado) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+
     <!-- Dados do mapa -->
     <script src="{{ url_for('static', filename='js/mapa_data.js') }}"></script>
 
