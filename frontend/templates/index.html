@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block titulo %}BioSistema — Explore o mundo da Biologia{% endblock %}
+{% block titulo %}IFauna — Explore o mundo da Biologia{% endblock %}
 
-{% block descricao %}BioSistema permite consultar e organizar informações sobre animais, plantas, espécies e biomas em um único lugar.{% endblock %}
+{% block descricao %}IFauna permite consultar e organizar informações sobre animais, espécies e biomas em um único lugar.{% endblock %}
 
 {% block estilos %}
     <link rel="stylesheet"
@@ -13,7 +13,7 @@
     <!-- Navbar da landing page (visitante, sem sessão) -->
     <header class="navbar">
         <div class="navbar-inner">
-            <a href="/" class="logo">Bio<span>Sistema</span></a>
+            <a href="/" class="logo">IF<span>auna</span></a>
             <nav class="nav-links">
                 <a href="#sobre">Sobre</a>
                 <a href="#recursos">Recursos</a>
@@ -32,8 +32,8 @@
             <span class="hero-tag">🌱 Sistema de Biologia</span>
             <h1>Explore o mundo da <span>Biologia</span></h1>
             <p>
-                O BioSistema permite consultar e organizar informações
-                sobre animais, plantas, espécies e biomas em um único lugar.
+                O IFauna permite consultar e organizar informações
+                sobre animais, espécies e biomas em um único lugar.
             </p>
             <div class="hero-buttons">
                 <a href="{{ url_for('frontend.login_page') }}" class="btn btn-primario">
@@ -58,7 +58,7 @@
     <section id="sobre" class="section">
         <div class="section-header">
             <span>SOBRE O SISTEMA</span>
-            <h2>Conheça o BioSistema</h2>
+            <h2>Conheça o IFauna</h2>
             <p>
                 Uma plataforma desenvolvida para facilitar o acesso e o
                 gerenciamento de informações relacionadas à biologia.
@@ -81,12 +81,12 @@
                 <a href="{{ url_for('frontend.login_page') }}">Acessar →</a>
             </article>
 
-            <article class="card">
+            <!-- <article class="card">
                 <div class="card-icon">🌿</div>
                 <h3>Plantas</h3>
                 <p>Consulte informações sobre plantas e suas características.</p>
                 <a href="{{ url_for('frontend.login_page') }}">Acessar →</a>
-            </article>
+            </article> -->
 
             <article class="card">
                 <div class="card-icon">🌎</div>
@@ -107,7 +107,7 @@
     <!-- CTA -->
     <section class="cta">
         <h2>Pronto para começar?</h2>
-        <p>Crie sua conta e tenha acesso ao BioSistema.</p>
+        <p>Crie sua conta e tenha acesso ao IFauna.</p>
         <a href="{{ url_for('frontend.cadastro_page') }}" class="btn btn-primario">
             Criar minha conta
         </a>
@@ -117,6 +117,6 @@
 
 {% block footer %}
     <footer class="footer">
-        <div class="footer-base">© 2026 BioSistema — Sistema de Biologia</div>
+        <div class="footer-base">© 2026 IFauna — Sistema de Biologia</div>
     </footer>
 {% endblock %}
