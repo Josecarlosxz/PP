@@ -27,6 +27,7 @@ from backend.models.animal import Animal
 from backend.models.planta import Planta
 from backend.models.bioma import Bioma
 from backend.models.especie_bioma import EspecieBioma
+from backend.models.flashcard import Flashcard
 
 
 # ============================================================
@@ -51,6 +52,7 @@ from backend.controllers.bioma_controller import bioma_bp
 from backend.controllers.especie_bioma_controller import especie_bioma_bp
 from backend.controllers.token_controller import token_bp
 from backend.controllers.participante_controller import participante_bp
+from backend.controllers.flashcard_controller import flashcard_bp
 
 
 def create_app():
@@ -130,6 +132,7 @@ def create_app():
     app.register_blueprint(especie_bioma_bp)
     app.register_blueprint(token_bp)
     app.register_blueprint(participante_bp)
+    app.register_blueprint(flashcard_bp)
 
 
     return app

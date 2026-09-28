@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block titulo %}Flashcards — IFauna{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/flashcards.css') }}">
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="flashcards-container">
+
+    <div class="flashcards-header">
+        <h1>🧠 Flashcards</h1>
+        <p>Teste seus conhecimentos de biologia</p>
+    </div>
+
+    <div class="flashcard-progress">
+        <span id="progresso">1 / 1</span>
+    </div>
+
+    <div class="flashcard">
+
+        <div class="flashcard-tema" id="tema">
+            Tema
+        </div>
+
+        <div class="flashcard-conteudo">
+
+            <div id="pergunta">
+                Carregando pergunta...
+            </div>
+
+            <div id="resposta" class="resposta escondida">
+                Resposta
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="flashcard-botoes">
+
+        <button id="btn-revelar" class="btn-revelar">
+            👁️ Revelar resposta
+        </button>
+
+        <button id="btn-proximo" class="btn-proximo">
+            Próximo →
+        </button>
+
+    </div>
+
+    <div id="mensagem" class="mensagem"></div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
+{% endblock %}

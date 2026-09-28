@@ -1,0 +1,86 @@
+.flashcards-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.flashcards-header h1 {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.flashcards-header p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.flashcard-progress {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.flashcard {
+    background: white;
+    border-radius: 18px;
+    padding: 35px;
+    min-height: 300px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flashcard-tema {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.flashcard-conteudo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.resposta {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #ddd;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.escondida {
+    display: none;
+}
+
+.flashcard-botoes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.flashcard-botoes button {
+    border: none;
+    border-radius: 10px;
+    padding: 13px 22px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-revelar {
+    background: #eee;
+}
+
+.btn-proximo {
+    background: #222;
+    color: white;
+}
+
+.mensagem {
+    margin-top: 20px;
+    font-weight: bold;
+}

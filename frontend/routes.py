@@ -48,3 +48,11 @@ def home():
 @frontend_bp.route("/detalhe")
 def detalhe_page():
     return render_template("detalhe.html")
+
+# ============================================================
+# FLASHCARDS
+# ============================================================
+
+@frontend_bp.route("/flashcards", methods=["GET"])
+def flashcards_page():
+    return render_template("flashcards.html")

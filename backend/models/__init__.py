@@ -15,4 +15,5 @@ from backend.models.animal import Animal
 from backend.models.planta import Planta
 from backend.models.bioma import Bioma
 from backend.models.especie_bioma import EspecieBioma
+from backend.models.flashcard import Flashcard
 
