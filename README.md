@@ -82,10 +82,10 @@ PP/
 ├── main.py
 ├── requirements.txt
 └── README.md
+```
 
 ### 1. Abra um terminal
 - PowerShell ou CMD
-
 
 ### 2. Navegue até a pasta do backend:
 
