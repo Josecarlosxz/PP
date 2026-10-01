@@ -56,3 +56,11 @@ def detalhe_page():
 @frontend_bp.route("/flashcards", methods=["GET"])
 def flashcards_page():
     return render_template("flashcards.html")
+
+# ============================================================
+# EM DESENVOLVIMENTO
+# ============================================================
+
+@frontend_bp.route("/em-desenvolvimento", methods=["GET"])
+def em_desenvolvimento_page():
+    return render_template("em_desenvolvimento.html")
