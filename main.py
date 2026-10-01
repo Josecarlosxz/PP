@@ -12,7 +12,7 @@ load_dotenv()
 # ============================================================
 
 from backend.database.database import engine, Base
-from backend.database.seed import criar_admin
+from backend.database.seed import criar_admin,  criar_flashcards
 
 
 # ============================================================
@@ -108,7 +108,20 @@ def create_app():
         print(e)
 
         raise
+    # ========================================================
+    # ADMINISTRADOR
+    # ========================================================
 
+    try:
+       
+       criar_flashcards()
+
+    except Exception as e:
+
+        print("Erro ao verificar flashcards:")
+        print(e)
+
+        raise
 
     # ========================================================
     # FRONTEND

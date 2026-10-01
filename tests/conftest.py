@@ -1,6 +1,6 @@
 import pytest
 
-from main import app
+from backend.main import app
 from backend.database.database import SessionLocal
 from backend.models.usuario import Usuario
 from backend.models.token import Token
