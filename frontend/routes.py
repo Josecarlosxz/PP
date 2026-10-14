@@ -55,7 +55,7 @@ def detalhe_page():
 
 @frontend_bp.route("/flashcards", methods=["GET"])
 def flashcards_page():
-    return render_template("flashcards.html")
+    return render_template("jogos.html")
 
 # ============================================================
 # EM DESENVOLVIMENTO

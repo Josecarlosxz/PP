@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block titulo %}Jogos — IFauna{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/flashcards.css') }}">
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/jogo15.css') }}">
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="flashcards-container">
+
+    <div class="flashcards-header">
+        <h1>🧠 Flashcards</h1>
+        <p>Teste seus conhecimentos de biologia</p>
+    </div>
+
+    <div class="flashcard-progress">
+        <span id="progresso">1 / 1</span>
+    </div>
+
+    <div class="flashcard">
+
+        <div class="flashcard-tema" id="tema">
+            Tema
+        </div>
+
+        <div class="flashcard-conteudo">
+
+            <div id="pergunta">
+                Carregando pergunta...
+            </div>
+
+            <div id="resposta" class="resposta escondida">
+                Resposta
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="flashcard-botoes">
+
+        <button id="btn-revelar" class="btn-revelar">
+            👁️ Revelar resposta
+        </button>
+
+        <button id="btn-proximo" class="btn-proximo">
+            Próximo →
+        </button>
+
+    </div>
+
+    <div id="mensagem" class="mensagem"></div>
+
+</div>
+
+<section class="j15" id="j15">
+
+   <section class="j15" id="j15">
+
+    <div class="j15-header">
+        <h2>🧩 Quebra-cabeça dos 15</h2>
+        <p>Deslize as peças até o espaço vazio e monte a foto do animal.</p>
+    </div>
+
+    <div class="j15-ref">
+        <img id="j15-ref-img" class="j15-ref-img" alt="Foto de referência">
+        <div>
+            <small>Foto de referência</small>
+            <strong id="j15-ref-nome"></strong>
+        </div>
+    </div>
+
+    <div class="j15-status">
+        <span>Movimentos: <strong id="j15-moves">0</strong></span>
+        <span>Tempo: <strong id="j15-time">00:00</strong></span>
+        <span>Recorde: <strong id="j15-best">—</strong></span>
+    </div>
+
+    <div class="j15-board j15-numeros" id="j15-board" tabindex="0"
+         aria-label="Tabuleiro do quebra-cabeça"></div>
+
+    <p class="j15-msg" id="j15-msg" aria-live="polite"></p>
+
+    <label class="j15-opcao">
+        <input type="checkbox" id="j15-numeros" checked>
+        Mostrar números nas peças
+    </label>
+
+    <div class="j15-botoes">
+        <button type="button" id="j15-reset" class="btn btn-primario">
+            🔀 Embaralhar
+        </button>
+        <button type="button" id="j15-trocar" class="btn btn-contorno">
+            🖼️ Trocar foto
+        </button>
+    </div>
+
+</section>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/flashcards.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jogo15.js') }}"></script>
+{% endblock %}

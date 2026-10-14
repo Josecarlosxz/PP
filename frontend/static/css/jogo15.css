@@ -1,0 +1,157 @@
+/* ============================================================
+   QUEBRA-CABEÇA DOS 15 — IFauna
+   Usa as variáveis de design do base.css
+============================================================ */
+
+.j15 {
+    max-width: 440px;
+    margin: 0 auto 60px;
+    padding: 20px;
+    text-align: center;
+}
+
+.j15-header h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--esp-2);
+}
+
+.j15-header p {
+    color: var(--cor-texto-suave);
+    margin-bottom: var(--esp-5);
+}
+
+/* Miniatura da foto de referência */
+.j15-ref {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--esp-3);
+    margin-bottom: var(--esp-4);
+    text-align: left;
+}
+
+.j15-ref-img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: var(--raio-sm);
+    box-shadow: var(--sombra-sm);
+}
+
+.j15-ref small {
+    display: block;
+    font-size: var(--fs-xs);
+    color: var(--cor-texto-suave);
+}
+
+.j15-status {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--esp-2) var(--esp-5);
+    margin-bottom: var(--esp-4);
+    font-size: var(--fs-sm);
+    color: var(--cor-texto-suave);
+}
+
+.j15-status strong {
+    color: var(--cor-primaria-escura);
+}
+
+/* Tabuleiro */
+.j15-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 4px;
+    aspect-ratio: 1 / 1;
+    background: var(--cor-primaria);
+    border-radius: var(--raio-md);
+    box-shadow: var(--sombra-md);
+    outline: none;
+    transition: gap var(--trans-media), padding var(--trans-media);
+}
+
+.j15-board:focus-visible {
+    box-shadow: 0 0 0 3px var(--cor-secundaria);
+}
+
+/* Cada peça mostra 1/16 da foto (background-position vem do JS) */
+.j15-peca {
+    position: relative;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--cor-primaria-clara);
+    background-size: 400% 400%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: transform var(--trans-rapida), filter var(--trans-rapida);
+}
+
+.j15-peca:hover {
+    transform: scale(0.97);
+    filter: brightness(1.1);
+}
+
+/* Número no canto (liga/desliga pelo checkbox) */
+.j15-peca small {
+    display: none;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    min-width: 22px;
+    padding: 1px 5px;
+    border-radius: var(--raio-pill);
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--cor-branco);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-forte);
+    line-height: 1.4;
+}
+
+.j15-numeros .j15-peca small {
+    display: block;
+}
+
+.j15-vazio {
+    background: transparent;
+}
+
+/* Fim de jogo: sem espaços, a foto aparece inteira */
+.j15-fim {
+    gap: 0;
+    padding: 0;
+}
+
+.j15-fim .j15-peca {
+    border-radius: 0;
+    pointer-events: none;
+}
+
+.j15-fim .j15-peca small {
+    display: none;
+}
+
+.j15-msg {
+    min-height: 1.6em;
+    margin: var(--esp-4) 0 var(--esp-3);
+    font-weight: var(--fw-forte);
+    color: var(--cor-sucesso-texto);
+}
+
+.j15-opcao {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--esp-2);
+    margin-bottom: var(--esp-4);
+    font-size: var(--fs-sm);
+    color: var(--cor-texto-suave);
+    cursor: pointer;
+}
+
+.j15-botoes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--esp-3);
+}
