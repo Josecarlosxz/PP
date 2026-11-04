@@ -12,7 +12,7 @@
 
   // Pasta das fotos (frontend/static/img/animais/) e lista de fotos.
   // Para adicionar uma foto: coloque o arquivo na pasta e crie uma linha aqui.
-  const PASTA = "/static/img/animais/";
+  const PASTA = "/static/img/imagens/";
   const FOTOS = [
     ["onca.jpg",  "Onça-pintada"],
     ["arara.jpg", "Arara-azul"],
